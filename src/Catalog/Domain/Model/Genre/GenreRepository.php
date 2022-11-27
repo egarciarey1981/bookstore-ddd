@@ -6,6 +6,7 @@ namespace App\Catalog\Domain\Model\Genre;
 
 interface GenreRepository
 {
+    public function nextIdentity(): GenreId;
     public function add(Genre $genre): void;
     public function ofId(GenreId $id): ?Genre;
     public function remove(Genre $genre): void;

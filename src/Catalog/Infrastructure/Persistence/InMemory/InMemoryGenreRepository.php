@@ -40,6 +40,11 @@ class InMemoryGenreRepository implements GenreRepository
         ];
     }
 
+    public function nextIdentity(): GenreId
+    {
+        return GenreId::create();
+    }
+
     public function add(Genre $genre): void
     {
         $this->genres[] = $genre;
@@ -64,8 +69,6 @@ class InMemoryGenreRepository implements GenreRepository
                 return;
             }
         }
-
-        throw new GenreNotFoundException();
     }
 
     public function all(): array

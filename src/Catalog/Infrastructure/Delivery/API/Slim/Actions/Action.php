@@ -28,11 +28,22 @@ abstract class Action
         } catch (NotFoundException $e) {
             return $this->respondWithData(['errors' => $e->getMessage()], 404);
         } catch (Throwable $t) {
-            return $this->respondWithData(['errors' => 'An unexpected error occurred'], 500);
+            return $this->respondWithData(['errors' => $t->getMessage()], 500);
         }
     }
 
+    /** @return array<string> */
+    public function getFormData(): array
+    {
+        return json_decode(file_get_contents('php://input'), true);
+    }
+
     abstract protected function action(): Response;
+
+    protected function setHeader(string $name, string $value): void
+    {
+        $this->response = $this->response->withAddedHeader($name, $value);
+    }
 
     /** @param array<mixed> $data */
     protected function respondWithData(array $data, int $statusCode = 200): Response

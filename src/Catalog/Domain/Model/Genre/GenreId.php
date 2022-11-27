@@ -17,7 +17,7 @@ class GenreId
         $this->id = $id;
     }
 
-    public static function generate(): GenreId
+    public static function create(): GenreId
     {
         $uuid = Uuid::uuid4();
         return new self($uuid->toString());

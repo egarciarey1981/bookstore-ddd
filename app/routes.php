@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\CreateGenreAction;
 use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\DeleteGenreAction;
 use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\ListGenreAction;
 use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\ViewGenreAction;
@@ -12,6 +13,7 @@ return function (App $app) {
     $app->group('/catalog/genre', function (Group $group) {
         $group->get('', ListGenreAction::class);
         $group->get('/{id}', ViewGenreAction::class);
+        $group->post('', CreateGenreAction::class);
         $group->delete('/{id}', DeleteGenreAction::class);
     });
 };
