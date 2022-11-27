@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Catalog\Application\Service\Genre\View;
 
 use App\Catalog\Application\Service\Genre\GenreService;
-use App\Shared\Domain\Exception\NotFoundException;
+use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 
 class ViewGenreService extends GenreService
 {
@@ -14,7 +14,7 @@ class ViewGenreService extends GenreService
         $genre = $this->genreRepository->ofId($request->genreId);
 
         if (is_null($genre)) {
-            throw new NotFoundException('Genre not found');
+            throw new GenreNotFoundException();
         }
 
         return new ViewGenreResponse($genre);

@@ -7,8 +7,8 @@ namespace App\Catalog\Infrastructure\Persistence\InMemory;
 use App\Catalog\Domain\Model\Genre\Genre;
 use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
+use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
-use App\Shared\Domain\Exception\NotFoundException;
 
 class InMemoryGenreRepository implements GenreRepository
 {
@@ -65,7 +65,7 @@ class InMemoryGenreRepository implements GenreRepository
             }
         }
 
-        throw new NotFoundException('Genre not found');
+        throw new GenreNotFoundException();
     }
 
     public function all(): array
