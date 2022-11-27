@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Application\Service\Genre;
+namespace App\Catalog\Application\Service\Genre\View;
 
 class ViewGenreRequest
 {

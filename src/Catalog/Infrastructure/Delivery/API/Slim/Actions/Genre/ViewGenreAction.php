@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
-use App\Catalog\Application\Service\Genre\ViewGenreRequest;
-use App\Catalog\Application\Service\Genre\ViewGenreService;
+use App\Catalog\Application\Service\Genre\View\ViewGenreRequest;
+use App\Catalog\Application\Service\Genre\View\ViewGenreService;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class ViewGenreAction extends GenreAction
@@ -18,12 +18,9 @@ class ViewGenreAction extends GenreAction
         $viewGenreService = new ViewGenreService($this->genreRepository);
         $viewGenreResponse = $viewGenreService->execute($viewGenreRequest);
 
-        $data = [
-            'genre' => [
-                'id' => $viewGenreResponse->id,
-                'name' => $viewGenreResponse->name,
-            ],
-        ];
+        $genre = $viewGenreResponse->genre;
+
+        $data = ['genre' => $genre];
 
         return $this->respondWithData($data);
     }
