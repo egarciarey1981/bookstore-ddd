@@ -13,8 +13,10 @@ abstract class Action
 {
     protected Request $request;
     protected Response $response;
+    /** @var array<string> */
     protected array $args;
 
+    /** @param array<string> $args */
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $this->request = $request;
@@ -26,13 +28,13 @@ abstract class Action
         } catch (NotFoundException $e) {
             return $this->respondWithData(['errors' => $e->getMessage()], 404);
         } catch (Throwable $t) {
-            return $this->respondWithData(['errors' => $t->getMessage()], 500);
             return $this->respondWithData(['errors' => 'An unexpected error occurred'], 500);
         }
     }
 
     abstract protected function action(): Response;
 
+    /** @param array<mixed> $data */
     protected function respondWithData(array $data, int $statusCode = 200): Response
     {
         $json = json_encode($data, JSON_PRETTY_PRINT);
@@ -44,7 +46,7 @@ abstract class Action
             ->withStatus($statusCode);
     }
 
-    protected function respond(int $statusCode): Response
+    protected function respond(int $statusCode = 200): Response
     {
         return $this->response
             ->withHeader('Content-Type', 'application/json')

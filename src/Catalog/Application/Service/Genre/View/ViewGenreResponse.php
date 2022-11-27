@@ -8,9 +8,11 @@ use App\Catalog\Domain\Model\Genre\Genre;
 
 class ViewGenreResponse
 {
+    /** @var array<string> */
     public array $genre;
 
-    public function __construct(Genre $genre) {
+    public function __construct(Genre $genre)
+    {
         $this->genre = [
             'id' => strval($genre->id()),
             'name' => strval($genre->name()),

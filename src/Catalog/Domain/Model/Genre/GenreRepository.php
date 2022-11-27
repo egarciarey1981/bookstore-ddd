@@ -8,6 +8,7 @@ interface GenreRepository
 {
     public function add(Genre $genre): void;
     public function ofId(GenreId $id): ?Genre;
+    public function remove(Genre $genre): void;
     /**
      * @return array<Genre>
      */

@@ -8,6 +8,7 @@ use App\Catalog\Domain\Model\Genre\Genre;
 
 class ListGenreResponse
 {
+    /** @var array<Genre> */
     public array $genres = [];
 
     public function __construct(Genre ...$genres)

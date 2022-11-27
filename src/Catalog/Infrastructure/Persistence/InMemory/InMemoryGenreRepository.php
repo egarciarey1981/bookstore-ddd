@@ -8,11 +8,14 @@ use App\Catalog\Domain\Model\Genre\Genre;
 use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
+use App\Shared\Domain\Exception\NotFoundException;
 
 class InMemoryGenreRepository implements GenreRepository
 {
+    /** @var array<Genre> */
     private array $genres;
 
+    /** @param array<Genre> $genres*/
     public function __construct(array $genres = [])
     {
         if (empty($genres)) {
@@ -22,6 +25,7 @@ class InMemoryGenreRepository implements GenreRepository
         $this->genres = $genres;
     }
 
+    /** @return array<Genre> */
     private function generateGenres(): array
     {
         return [
@@ -50,6 +54,18 @@ class InMemoryGenreRepository implements GenreRepository
         }
 
         return null;
+    }
+
+    public function remove(Genre $theGenre): void
+    {
+        foreach ($this->genres as $key => $genre) {
+            if ($genre->equals($theGenre)) {
+                unset($this->genres[$key]);
+                return;
+            }
+        }
+
+        throw new NotFoundException('Genre not found');
     }
 
     public function all(): array
