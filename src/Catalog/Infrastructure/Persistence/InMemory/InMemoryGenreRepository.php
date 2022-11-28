@@ -23,7 +23,7 @@ class InMemoryGenreRepository implements GenreRepository
             ),
             new Genre(
                 new GenreId('bd207a1c-fe19-4ed2-a61b-c315ca95d38c'),
-                new GenreName('Comedy'),
+                new GenreName('Adventure'),
             ),
         ];
 
