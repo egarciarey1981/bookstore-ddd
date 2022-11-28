@@ -24,4 +24,12 @@ class Genre
     {
         return $this->name;
     }
+
+    public function changeName(GenreName $genreName): Genre
+    {
+        return new Genre(
+            $this->id,
+            $genreName,
+        );
+    }
 }
