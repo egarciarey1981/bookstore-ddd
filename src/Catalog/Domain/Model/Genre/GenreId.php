@@ -16,7 +16,7 @@ class GenreId
         $uuid = Uuid::uuid4();
         return new self($uuid->toString());
     }
-    
+
     public function __construct(string $id)
     {
         $this->assert($id);
@@ -24,6 +24,19 @@ class GenreId
     }
 
     private function assert(string $id): void
+    {
+        $this->assertNotEmpty($id);
+        $this->assertUuid($id);
+    }
+
+    private function assertNotEmpty(string $id): void
+    {
+        if (empty($id)) {
+            throw new InvalidArgumentException("Empty genre ID");
+        }
+    }
+
+    private function assertUuid(string $id): void
     {
         if (!Uuid::isValid($id)) {
             throw new InvalidArgumentException("Genre ID not valid");

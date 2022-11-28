@@ -18,35 +18,35 @@ class GenreName
         $this->assert($name);
         $this->name = $name;
     }
-    
+
     private function assert(string $name): void
     {
         $this->assertNotEmpty($name);
         $this->assertNotTooShort($name);
         $this->assertNotTooLong($name);
     }
-    
+
     private function assertNotEmpty(string $name): void
     {
         if (empty($name)) {
-            throw new InvalidArgumentException("Empty genre ID");
+            throw new InvalidArgumentException("Empty genre name");
         }
     }
-        
+
     private function assertNotTooShort(string $name): void
     {
         if (strlen($name) < self::MIN_LENGTH) {
             throw new InvalidArgumentException(
-                sprintf('The genre ID must be %d characters or more', self::MIN_LENGTH)
+                sprintf('The genre name must be %d characters or more', self::MIN_LENGTH)
             );
         }
     }
-        
+
     private function assertNotTooLong(string $name): void
     {
         if (strlen($name) > self::MAX_LENGTH) {
             throw new InvalidArgumentException(
-                sprintf('The genre ID must be %d characters or less', self::MAX_LENGTH)
+                sprintf('The genre name must be %d characters or less', self::MAX_LENGTH)
             );
         }
     }

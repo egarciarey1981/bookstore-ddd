@@ -28,19 +28,15 @@ composer-dump: ## actualiza autoload
 
 
 phpstan: ## PHPStan
-	docker run --rm -v $(PWD):/app ghcr.io/phpstan/phpstan analyse --level 6 /app/src
+	docker run --rm -v $(PWD):/app ghcr.io/phpstan/phpstan analyse --level 6 /app/src /app/tests/Unit
 phpcs: ## PHP_CodeSniffer
-	docker run --rm -v $(PWD):/app cytopia/phpcs --standard=PSR12 /app/src
+	docker run --rm -v $(PWD):/app cytopia/phpcs --standard=PSR12 /app/src /app/tests/Unit
 phpcbf: ## PHP_CodeSniffer Fixer
-	docker run --rm -v $(PWD):/app cytopia/phpcbf --standard=PSR12 /app/src
+	docker run --rm -v $(PWD):/app cytopia/phpcbf --standard=PSR12 /app/src /app/tests/Unit
 
 
 test-unit: ## test unitarios
 	docker exec -it bookstore_php vendor/bin/phpunit --no-coverage --testsuite Unit
-test-acceptance: ## test de aceptación
-	docker exec -it bookstore_php vendor/bin/phpunit --no-coverage --testsuite Acceptance
 test-coverage: ## test de covertura
-	docker exec -it bookstore_php vendor/bin/phpunit --testsuite Unit,Acceptance
-test-dead-code: ## test de covertura
-	docker exec -it bookstore_php vendor/bin/phpunit --testsuite Acceptance
+	docker exec -it bookstore_php vendor/bin/phpunit --testsuite Unit
 
