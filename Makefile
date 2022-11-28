@@ -1,7 +1,9 @@
 .PHONY: help
 
+
 help:
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+
 
 up: ## levantar
 	docker-compose up -d --build
@@ -16,6 +18,7 @@ ps: ## estado
 log: ## log
 	docker-compose -f docker-compose.yml logs --tail=100 -f
 
+
 composer-install: ## instala dependencias de composer
 	docker run --rm --interactive --tty --volume $(PWD):/app composer install
 composer-update: ## actualiza dependencias de composer
@@ -23,12 +26,14 @@ composer-update: ## actualiza dependencias de composer
 composer-dump: ## actualiza autoload
 	docker run --rm --interactive --tty --volume $(PWD):/app composer dump-autoload
 
+
 phpstan: ## PHPStan
 	docker run --rm -v $(PWD):/app ghcr.io/phpstan/phpstan analyse --level 6 /app/src
-
 phpcs: ## PHP_CodeSniffer
 	docker run --rm -v $(PWD):/app cytopia/phpcs --standard=PSR12 /app/src
-
 phpcbf: ## PHP_CodeSniffer Fixer
 	docker run --rm -v $(PWD):/app cytopia/phpcbf --standard=PSR12 /app/src
+
+test-unit: ## test unitarios
+	docker exec -it bookstore_php vendor/bin/phpunit tests
 
