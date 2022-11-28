@@ -11,7 +11,7 @@ class ViewGenreService extends GenreService
 {
     public function execute(ViewGenreRequest $request): ViewGenreResponse
     {
-        $genre = $this->genreRepository->ofId($request->genreId);
+        $genre = $this->genreRepository->genreOfId($request->genreId);
 
         if (is_null($genre)) {
             throw new GenreNotFoundException();

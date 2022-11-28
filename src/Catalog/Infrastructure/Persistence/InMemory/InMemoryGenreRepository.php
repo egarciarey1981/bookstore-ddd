@@ -7,7 +7,6 @@ namespace App\Catalog\Infrastructure\Persistence\InMemory;
 use App\Catalog\Domain\Model\Genre\Genre;
 use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
-use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
 
 class InMemoryGenreRepository implements GenreRepository
@@ -15,20 +14,9 @@ class InMemoryGenreRepository implements GenreRepository
     /** @var array<Genre> */
     private array $genres;
 
-    /** @param array<Genre> $genres*/
-    public function __construct(array $genres = [])
+    public function __construct()
     {
-        if (empty($genres)) {
-            $genres = $this->generateGenres();
-        }
-
-        $this->genres = $genres;
-    }
-
-    /** @return array<Genre> */
-    private function generateGenres(): array
-    {
-        return [
+        $genres = [
             new Genre(
                 new GenreId('50df20ba-cb69-4184-b851-cce89e01e419'),
                 new GenreName('Terror'),
@@ -38,6 +26,8 @@ class InMemoryGenreRepository implements GenreRepository
                 new GenreName('Comedy'),
             ),
         ];
+
+        $this->saveAll(...$genres);
     }
 
     public function nextIdentity(): GenreId
@@ -45,30 +35,30 @@ class InMemoryGenreRepository implements GenreRepository
         return GenreId::create();
     }
 
-    public function add(Genre $genre): void
+    public function save(Genre $genre): void
     {
-        $this->genres[] = $genre;
+        $this->genres[strval($genre->id())] = $genre;
     }
 
-    public function ofId(GenreId $id): ?Genre
+    public function saveAll(Genre ...$genres): void
     {
-        foreach ($this->genres as $genre) {
-            if ($genre->id()->equals($id)) {
-                return $genre;
-            }
+        foreach ($genres as $genre) {
+            $this->save($genre);
         }
-
-        return null;
     }
 
-    public function remove(Genre $theGenre): void
+    public function genreOfId(GenreId $id): ?Genre
     {
-        foreach ($this->genres as $key => $genre) {
-            if ($genre->equals($theGenre)) {
-                unset($this->genres[$key]);
-                return;
-            }
+        if (!isset($this->genres[strval($id)])) {
+            return null;
         }
+
+        return $this->genres[strval($id)];
+    }
+
+    public function remove(Genre $genre): void
+    {
+        unset($this->genres[strval($genre->id())]);
     }
 
     public function all(): array

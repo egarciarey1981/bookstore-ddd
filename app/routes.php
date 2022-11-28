@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\CreateGenreAction;
 use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\DeleteGenreAction;
 use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\ListGenreAction;
+use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\UpdateGenreAction;
 use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\ViewGenreAction;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
@@ -14,6 +15,7 @@ return function (App $app) {
         $group->get('', ListGenreAction::class);
         $group->get('/{id}', ViewGenreAction::class);
         $group->post('', CreateGenreAction::class);
+        $group->put('/{id}', UpdateGenreAction::class);
         $group->delete('/{id}', DeleteGenreAction::class);
     });
 };

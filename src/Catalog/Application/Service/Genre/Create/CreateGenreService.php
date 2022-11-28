@@ -16,7 +16,7 @@ class CreateGenreService extends GenreService
             $request->genreName
         );
 
-        $this->genreRepository->add($genre);
+        $this->genreRepository->save($genre);
 
         return new CreateGenreResponse($genre);
     }
