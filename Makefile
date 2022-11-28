@@ -34,6 +34,13 @@ phpcs: ## PHP_CodeSniffer
 phpcbf: ## PHP_CodeSniffer Fixer
 	docker run --rm -v $(PWD):/app cytopia/phpcbf --standard=PSR12 /app/src
 
+
 test-unit: ## test unitarios
-	docker exec -it bookstore_php vendor/bin/phpunit tests
+	docker exec -it bookstore_php vendor/bin/phpunit --no-coverage --testsuite Unit
+test-acceptance: ## test de aceptación
+	docker exec -it bookstore_php vendor/bin/phpunit --no-coverage --testsuite Acceptance
+test-coverage: ## test de covertura
+	docker exec -it bookstore_php vendor/bin/phpunit --testsuite Unit,Acceptance
+test-dead-code: ## test de covertura
+	docker exec -it bookstore_php vendor/bin/phpunit --testsuite Acceptance
 

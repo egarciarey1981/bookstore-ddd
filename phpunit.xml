@@ -20,10 +20,24 @@
     <include>
       <directory suffix=".php">./src/</directory>
     </include>
+    <report>
+      <html outputDirectory="./tests/reports/coverage/html"/>
+      <clover outputFile="./tests/reports/clover.xml"/>
+      <text outputFile="php://stdout" showUncoveredFiles="false"/>
+    </report>
   </coverage>
   <testsuites>
-    <testsuite name="Test Suite">
-      <directory>./tests/</directory>
+    <testsuite name="Acceptance">
+      <directory suffix="Test.php">./tests/Acceptance</directory>
+    </testsuite>
+    <testsuite name="Application">
+      <directory suffix="Test.php">./tests/Application</directory>
+    </testsuite>
+    <testsuite name="Infrastructure">
+      <directory suffix="Test.php">./tests/Infrastructure</directory>
+    </testsuite>
+    <testsuite name="Unit">
+      <directory suffix="Test.php">./tests/Unit</directory>
     </testsuite>
   </testsuites>
 </phpunit>
