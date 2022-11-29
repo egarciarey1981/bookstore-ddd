@@ -21,16 +21,8 @@ class GenreName
 
     private function assert(string $name): void
     {
-        $this->assertNotEmpty($name);
         $this->assertNotTooShort($name);
         $this->assertNotTooLong($name);
-    }
-
-    private function assertNotEmpty(string $name): void
-    {
-        if (empty($name)) {
-            throw new InvalidArgumentException("Empty genre name");
-        }
     }
 
     private function assertNotTooShort(string $name): void

@@ -9,14 +9,16 @@ use App\Catalog\Application\Service\Genre\Create\CreateGenreService;
 use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Infrastructure\Persistence\InMemory\InMemoryGenreRepository;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class CreateGenreServiceTest extends TestCase
 {
-    public function testCreate(): void
+    /**
+     * @dataProvider dataProviderValidArguments
+     */
+    public function testCreate($name): void
     {
-        $name = 'Terror';
-
         $repository = new InMemoryGenreRepository();
         
         $service = new CreateGenreService($repository);
@@ -33,4 +35,39 @@ class CreateGenreServiceTest extends TestCase
         self::assertTrue($genre->name()->equals(new GenreName($name)));
     }
 
+    /**
+     * @dataProvider dataProviderInvalidArguments
+     */
+    public function testInvalidArguments(string $name): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $service = new CreateGenreService(
+            new InMemoryGenreRepository()
+        );
+
+        $service->execute(
+            new CreateGenreRequest(
+                $name
+            )
+        );
+    }
+
+    public function dataProviderValidArguments():array
+    {
+        return [
+            ['Foo'],
+            ['Adventure'],
+            ["this isn't too large"],
+        ];
+    }
+
+    public function dataProviderInvalidArguments():array
+    {
+        return [
+            [''],
+            ['ab'],
+            ['this genre name is too long'],
+        ];
+    }
 }

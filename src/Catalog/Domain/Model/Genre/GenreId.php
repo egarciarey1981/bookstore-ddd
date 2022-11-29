@@ -19,19 +19,6 @@ class GenreId
 
     private function assert(string $id): void
     {
-        $this->assertNotEmpty($id);
-        $this->assertUuid($id);
-    }
-
-    private function assertNotEmpty(string $id): void
-    {
-        if (empty($id)) {
-            throw new InvalidArgumentException("Empty genre ID");
-        }
-    }
-
-    private function assertUuid(string $id): void
-    {
         if (!Uuid::isValid($id)) {
             throw new InvalidArgumentException("Genre ID not valid");
         }

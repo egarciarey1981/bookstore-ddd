@@ -11,6 +11,7 @@ use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Infrastructure\Persistence\InMemory\InMemoryGenreRepository;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class ViewGenreServiceTest extends TestCase
@@ -45,6 +46,39 @@ class ViewGenreServiceTest extends TestCase
 
         $service->execute(
             new ViewGenreRequest('bd207a1c-fe19-4ed2-a61b-c315ca95d38c')
+        );
+    }
+
+    public function testMessageException(): void
+    {
+        $message = '';
+
+        $service = new ViewGenreService(
+            new InMemoryGenreRepository()
+        );
+
+        try {
+            $service->execute(
+                new ViewGenreRequest('bd207a1c-fe19-4ed2-a61b-c315ca95d38c')
+            );
+        } catch (GenreNotFoundException $e) {
+            $message = $e->getMessage();
+        }
+        
+        
+        self::assertEquals('Genre not found', $message);
+    }
+
+    public function testInvalidUuid(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $service = new ViewGenreService(
+            new InMemoryGenreRepository()
+        );
+
+        $service->execute(
+            new ViewGenreRequest('invalid uuid')
         );
     }
 }
