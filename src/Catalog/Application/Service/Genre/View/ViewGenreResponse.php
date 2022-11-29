@@ -13,9 +13,7 @@ class ViewGenreResponse
 
     public function __construct(Genre $genre)
     {
-        $this->genre = [
-            'id' => strval($genre->id()),
-            'name' => strval($genre->name()),
-        ];
+        $this->genre['id'] = strval($genre->id());
+        $this->genre['name'] = strval($genre->name());
     }
 }
