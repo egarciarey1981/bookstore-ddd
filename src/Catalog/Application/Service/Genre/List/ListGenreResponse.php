@@ -14,10 +14,10 @@ class ListGenreResponse
     public function __construct(Genre ...$genres)
     {
         foreach ($genres as $genre) {
-            $this->genres[] = [
-                'id' => strval($genre->id()),
-                'name' => strval($genre->name()),
-            ];
+            $array = [];
+            $array['id'] = strval($genre->id());
+            $array['name'] = strval($genre->name());
+            $this->genres[] = $array;
         }
     }
 }

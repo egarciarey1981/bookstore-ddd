@@ -11,12 +11,6 @@ class GenreId
 {
     private string $id;
 
-    public static function create(): GenreId
-    {
-        $uuid = Uuid::uuid4();
-        return new self($uuid->toString());
-    }
-
     public function __construct(string $id)
     {
         $this->assert($id);

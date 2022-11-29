@@ -6,33 +6,17 @@ namespace App\Catalog\Infrastructure\Persistence\InMemory;
 
 use App\Catalog\Domain\Model\Genre\Genre;
 use App\Catalog\Domain\Model\Genre\GenreId;
-use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
+use Ramsey\Uuid\Uuid;
 
 class InMemoryGenreRepository implements GenreRepository
 {
     /** @var array<Genre> */
     private array $genres;
 
-    public function __construct()
-    {
-        $genres = [
-            new Genre(
-                new GenreId('50df20ba-cb69-4184-b851-cce89e01e419'),
-                new GenreName('Terror'),
-            ),
-            new Genre(
-                new GenreId('bd207a1c-fe19-4ed2-a61b-c315ca95d38c'),
-                new GenreName('Adventure'),
-            ),
-        ];
-
-        $this->saveAll(...$genres);
-    }
-
     public function nextIdentity(): GenreId
     {
-        return GenreId::create();
+        return new GenreId(strval(Uuid::uuid4()));
     }
 
     public function save(Genre $genre): void

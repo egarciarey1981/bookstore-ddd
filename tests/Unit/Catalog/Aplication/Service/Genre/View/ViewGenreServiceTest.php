@@ -17,35 +17,22 @@ class ViewGenreServiceTest extends TestCase
 {
     public function testFind(): void
     {
-        $genres = [
-            new Genre(
-                GenreId::create(),
-                new GenreName('One'),
-            ),
-            new Genre(
-                GenreId::create(),
-                new GenreName('Two'),
-            ),
-            new Genre(
-                GenreId::create(),
-                new GenreName('Three'),
-            ),
-        ];
+        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
 
-        $genreRepository = new InMemoryGenreRepository();
-        $genreRepository->saveAll(...$genres);
-
-        shuffle($genres);
-        $randGenre = $genres[0];
-
-        $viewGenreService = new ViewGenreService($genreRepository);
-        $viewGenreResponse = $viewGenreService->execute(
-            new ViewGenreRequest(strval($randGenre->id()))
+        $repository = new InMemoryGenreRepository();
+        $repository->saveAll(
+            new Genre(
+                new GenreId($id),
+                new GenreName('Adventure'),
+            )
         );
 
-        $genreFound = $viewGenreResponse->genre;
+        $service = new ViewGenreService($repository);
+        $response = $service->execute(
+            new ViewGenreRequest($id)
+        );
 
-        self::assertEquals(strval($randGenre->id()), $genreFound['id']);
+        self::assertEquals($id, $response->genre['id']);
     }
 
     public function testNotFind(): void
@@ -57,7 +44,7 @@ class ViewGenreServiceTest extends TestCase
         );
 
         $viewGenreService->execute(
-            new ViewGenreRequest(strval(GenreId::create()))
+            new ViewGenreRequest('bd207a1c-fe19-4ed2-a61b-c315ca95d38c')
         );
     }
 }
