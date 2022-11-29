@@ -17,17 +17,17 @@ class CreateGenreServiceTest extends TestCase
     /**
      * @dataProvider dataProviderValidArguments
      */
-    public function testCreate($name): void
+    public function testCreate(string $name): void
     {
         $repository = new InMemoryGenreRepository();
-        
+
         $service = new CreateGenreService($repository);
         $response = $service->execute(
             new CreateGenreRequest(
                 $name
             )
         );
-            
+
         $genreId = new GenreId($response->genre['id']);
         $genre = $repository->genreOfId($genreId);
 
@@ -53,7 +53,10 @@ class CreateGenreServiceTest extends TestCase
         );
     }
 
-    public function dataProviderValidArguments():array
+    /**
+     * @return array<array<string>>
+     */
+    public function dataProviderValidArguments(): array
     {
         return [
             ['Foo'],
@@ -62,7 +65,10 @@ class CreateGenreServiceTest extends TestCase
         ];
     }
 
-    public function dataProviderInvalidArguments():array
+    /**
+     * @return array<array<string>>
+     */
+    public function dataProviderInvalidArguments(): array
     {
         return [
             [''],

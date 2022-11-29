@@ -46,7 +46,7 @@ class DeleteGenreServiceTest extends TestCase
         $this->expectException(GenreNotFoundException::class);
 
         $service->execute(
-            new DeleteGenreRequest($id) 
+            new DeleteGenreRequest($id)
         );
     }
 }

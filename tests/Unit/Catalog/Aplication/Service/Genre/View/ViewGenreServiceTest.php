@@ -64,8 +64,8 @@ class ViewGenreServiceTest extends TestCase
         } catch (GenreNotFoundException $e) {
             $message = $e->getMessage();
         }
-        
-        
+
+
         self::assertEquals('Genre not found', $message);
     }
 

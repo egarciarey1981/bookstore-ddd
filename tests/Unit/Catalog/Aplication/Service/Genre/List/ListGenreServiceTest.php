@@ -31,6 +31,7 @@ class ListGenreServiceTest extends TestCase
         $repository->saveAll(...$genres);
 
         $service = new ListGenreService($repository);
+
         $response = $service->execute(
             new ListGenreRequest()
         );
