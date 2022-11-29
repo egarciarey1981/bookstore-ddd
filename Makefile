@@ -39,4 +39,6 @@ test-unit: ## test unitarios
 	docker exec -it bookstore_php vendor/bin/phpunit --no-coverage --testsuite Unit
 test-coverage: ## test de covertura
 	docker exec -it bookstore_php vendor/bin/phpunit --testsuite Unit
+test-mutant: ## test mutantes
+	docker exec -it bookstore_php vendor/bin/infection --filter=src
 

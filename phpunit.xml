@@ -15,6 +15,8 @@
     stopOnFailure="false" 
     cacheResult="false"
     bootstrap="vendor/autoload.php"
+    executionOrder="random"
+    resolveDependencies="true"
 >
   <coverage processUncoveredFiles="true">
     <include>
@@ -27,15 +29,6 @@
     </report>
   </coverage>
   <testsuites>
-    <testsuite name="Acceptance">
-      <directory suffix="Test.php">./tests/Acceptance</directory>
-    </testsuite>
-    <testsuite name="Application">
-      <directory suffix="Test.php">./tests/Application</directory>
-    </testsuite>
-    <testsuite name="Infrastructure">
-      <directory suffix="Test.php">./tests/Infrastructure</directory>
-    </testsuite>
     <testsuite name="Unit">
       <directory suffix="Test.php">./tests/Unit</directory>
     </testsuite>
