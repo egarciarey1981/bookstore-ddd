@@ -37,9 +37,9 @@ class GenreId
         }
     }
 
-    public function equals(self $other): bool
+    public function equals(self $genreId): bool
     {
-        return $this->id === $other->id;
+        return $this->id === $genreId->id;
     }
 
     public function __toString(): string

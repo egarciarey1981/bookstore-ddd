@@ -13,9 +13,9 @@ class UpdateGenreResponse
 
     public function __construct(Genre $genre)
     {
-        $this->genre = [
-            'id' => strval($genre->id()),
-            'name' => strval($genre->name()),
-        ];
+        $array = [];
+        $array['id'] = strval($genre->id());
+        $array['name'] = strval($genre->name());
+        $this->genre = $array;
     }
 }
