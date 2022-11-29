@@ -20,7 +20,7 @@ class ViewGenreServiceTest extends TestCase
         $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
 
         $repository = new InMemoryGenreRepository();
-        $repository->saveAll(
+        $repository->save(
             new Genre(
                 new GenreId($id),
                 new GenreName('Adventure'),
