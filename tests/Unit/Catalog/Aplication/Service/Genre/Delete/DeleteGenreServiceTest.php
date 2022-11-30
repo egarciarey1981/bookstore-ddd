@@ -11,6 +11,7 @@ use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
+use Exception;
 use InvalidArgumentException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +34,7 @@ class DeleteGenreServiceTest extends TestCase
             ->andReturn($genre, null);
         $repository
             ->shouldReceive('remove')
-            ->andReturn(null);
+            ->andReturn(true);
 
         $service = new DeleteGenreService($repository);
         $service->execute(
@@ -41,6 +42,33 @@ class DeleteGenreServiceTest extends TestCase
         );
 
         self::assertNull($repository->genreOfId($genreId));
+    }
+
+
+    public function testNotDelete(): void
+    {
+        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
+        $genreId = new GenreId($id);
+
+        $genre = new Genre(
+            $genreId,
+            new GenreName('Adventure'),
+        );
+
+        $repository = Mockery::mock(GenreRepository::class);
+        $repository
+            ->shouldReceive('genreOfId')
+            ->andReturn($genre);
+        $repository
+            ->shouldReceive('remove')
+            ->andReturn(false);
+
+        $this->expectException(Exception::class);
+
+        $service = new DeleteGenreService($repository);
+        $service->execute(
+            new DeleteGenreRequest($id)
+        );
     }
 
     public function testNotFound(): void

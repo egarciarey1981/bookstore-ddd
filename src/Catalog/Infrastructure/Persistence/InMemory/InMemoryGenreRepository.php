@@ -19,16 +19,18 @@ class InMemoryGenreRepository implements GenreRepository
         return new GenreId(strval(Uuid::uuid4()));
     }
 
-    public function save(Genre $genre): void
+    public function save(Genre $genre): bool
     {
         $this->genres[strval($genre->id())] = $genre;
+        return true;
     }
 
-    public function saveAll(Genre ...$genres): void
+    public function saveAll(Genre ...$genres): bool
     {
         foreach ($genres as $genre) {
             $this->save($genre);
         }
+        return true;
     }
 
     public function genreOfId(GenreId $id): ?Genre
@@ -40,9 +42,14 @@ class InMemoryGenreRepository implements GenreRepository
         return $this->genres[strval($id)];
     }
 
-    public function remove(Genre $genre): void
+    public function remove(Genre $genre): bool
     {
+        if(!isset($this->genres[strval($genre->id())])){
+            return false;
+        }
+
         unset($this->genres[strval($genre->id())]);
+        return true;
     }
 
     public function all(): array

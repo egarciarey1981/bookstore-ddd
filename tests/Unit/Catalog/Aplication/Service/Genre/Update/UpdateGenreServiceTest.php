@@ -11,6 +11,7 @@ use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
+use Exception;
 use InvalidArgumentException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -37,10 +38,11 @@ class UpdateGenreServiceTest extends TestCase
             ->andReturn($oldGenre, $newGenre);
         $repository
             ->shouldReceive('save')
-            ->andReturn(null);
+            ->andReturn(true)
+            ->once();
 
         $service = new UpdateGenreService($repository);
-        $service->execute(
+        $response = $service->execute(
             new UpdateGenreRequest(
                 $id,
                 $newName
@@ -49,7 +51,36 @@ class UpdateGenreServiceTest extends TestCase
 
         $genre = $repository->genreOfId($genreId);
 
-        self::assertTrue($genre->name()->equals($newGenreName));
+        self::assertEquals($newName, $response->genre['name']);
+    }
+    public function testNotUpdate(): void
+    {
+        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
+        $name = 'Terror';
+
+        $genreId = new GenreId($id);
+        $genreName = new GenreName($name);
+
+        $genre = new Genre($genreId, $genreName);
+
+        $repository = Mockery::mock(GenreRepository::class);
+        $repository
+            ->shouldReceive('genreOfId')
+            ->andReturn($genre);
+        $repository
+            ->shouldReceive('save')
+            ->andReturn(false)
+            ->once();
+
+        $this->expectException(Exception::class);
+
+        $service = new UpdateGenreService($repository);
+        $service->execute(
+            new UpdateGenreRequest(
+                $id,
+                $name
+            )
+        );
     }
 
     public function testNotFind(): void

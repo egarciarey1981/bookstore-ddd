@@ -43,11 +43,6 @@ class GenreName
         }
     }
 
-    public function equals(self $genreName): bool
-    {
-        return $this->name === $genreName->name;
-    }
-
     public function __toString(): string
     {
         return $this->name;

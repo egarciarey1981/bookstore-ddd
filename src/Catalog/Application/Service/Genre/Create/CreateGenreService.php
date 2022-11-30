@@ -6,6 +6,7 @@ namespace App\Catalog\Application\Service\Genre\Create;
 
 use App\Catalog\Application\Service\Genre\GenreService;
 use App\Catalog\Domain\Model\Genre\Genre;
+use Exception;
 
 class CreateGenreService extends GenreService
 {
@@ -16,7 +17,9 @@ class CreateGenreService extends GenreService
             $request->genreName
         );
 
-        $this->genreRepository->save($genre);
+        if(!$this->genreRepository->save($genre)){
+            throw new Exception();
+        }
 
         return new CreateGenreResponse($genre);
     }

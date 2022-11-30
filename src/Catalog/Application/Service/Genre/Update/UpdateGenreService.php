@@ -8,6 +8,7 @@ use App\Catalog\Application\Service\Genre\GenreService;
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreRequest;
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreResponse;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
+use Exception;
 
 class UpdateGenreService extends GenreService
 {
@@ -21,7 +22,9 @@ class UpdateGenreService extends GenreService
 
         $newGenre = $oldGenre->changeName($request->genreName);
 
-        $this->genreRepository->save($newGenre);
+        if (!$this->genreRepository->save($newGenre)) {
+            throw new Exception();
+        }
 
         return new UpdateGenreResponse($newGenre);
     }
