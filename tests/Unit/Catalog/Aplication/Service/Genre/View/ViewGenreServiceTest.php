@@ -10,23 +10,31 @@ use App\Catalog\Domain\Model\Genre\Genre;
 use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
-use App\Catalog\Infrastructure\Persistence\InMemory\InMemoryGenreRepository;
+use App\Catalog\Domain\Model\Genre\GenreRepository;
 use InvalidArgumentException;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 
 class ViewGenreServiceTest extends TestCase
 {
     public function testFind(): void
     {
-        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
 
-        $repository = new InMemoryGenreRepository();
-        $repository->save(
-            new Genre(
-                new GenreId($id),
-                new GenreName('Adventure'),
-            )
+        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
+        $name = 'Adventure';
+
+        $genreId = new GenreId($id);
+        $genreName = new GenreName($name);
+
+        $genre = new Genre(
+            $genreId,
+            $genreName,
         );
+
+        $repository = Mockery::mock(GenreRepository::class);
+        $repository
+            ->shouldReceive('genreOfId')
+            ->andReturn($genre);
 
         $service = new ViewGenreService($repository);
         $response = $service->execute(
@@ -34,15 +42,19 @@ class ViewGenreServiceTest extends TestCase
         );
 
         self::assertEquals($id, $response->genre['id']);
+        self::assertEquals($name, $response->genre['name']);
     }
 
     public function testNotFind(): void
     {
         $this->expectException(GenreNotFoundException::class);
 
-        $service = new ViewGenreService(
-            new InMemoryGenreRepository()
-        );
+        $repository = Mockery::mock(GenreRepository::class);
+        $repository
+            ->shouldReceive('genreOfId')
+            ->andReturn(null);
+      
+        $service = new ViewGenreService($repository);
 
         $service->execute(
             new ViewGenreRequest('bd207a1c-fe19-4ed2-a61b-c315ca95d38c')
@@ -53,9 +65,12 @@ class ViewGenreServiceTest extends TestCase
     {
         $message = '';
 
-        $service = new ViewGenreService(
-            new InMemoryGenreRepository()
-        );
+        $repository = Mockery::mock(GenreRepository::class);
+        $repository
+            ->shouldReceive('genreOfId')
+            ->andReturn(null);
+
+        $service = new ViewGenreService($repository);
 
         try {
             $service->execute(
@@ -74,7 +89,7 @@ class ViewGenreServiceTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $service = new ViewGenreService(
-            new InMemoryGenreRepository()
+            Mockery::mock(GenreRepository::class)
         );
 
         $service->execute(
