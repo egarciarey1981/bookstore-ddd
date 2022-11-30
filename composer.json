@@ -6,9 +6,9 @@
         "slim/slim": "4.*"
     },
     "require-dev": {
-        "mockery/mockery": "*",
-        "phpunit/phpunit": "*",
-        "infection/infection": "*"
+        "fakerphp/faker": "*",
+        "infection/infection": "*",
+        "phpunit/phpunit": "*"
     },
     "autoload": {
         "psr-4": {

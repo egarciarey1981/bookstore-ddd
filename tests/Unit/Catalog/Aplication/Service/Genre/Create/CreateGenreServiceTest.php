@@ -12,61 +12,58 @@ use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
 use Exception;
 use InvalidArgumentException;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 
 class CreateGenreServiceTest extends TestCase
 {
     /**
      * @dataProvider dataProviderValidArguments
      */
-    public function testCreate(string $name): void
+    public function testCreate(string $id, string $name): void
     {
-        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
-
-        $genreId = new GenreId($id);
-        $genreName = new GenreName($name);
-
         $genre = new Genre(
-            $genreId,
-            $genreName,
+            new GenreId($id),
+            new GenreName($name),
         );
 
-        $repository = Mockery::mock(GenreRepository::class);
+        $repository = $this->createMock(GenreRepository::class);
         $repository
-            ->shouldReceive('save')
-            ->andReturn(true);
+            ->expects($this->once())
+            ->method('nextIdentity')
+            ->willReturn($genre->id());
         $repository
-            ->shouldReceive('nextIdentity')
-            ->andReturn($genreId);
-        $repository
-            ->shouldReceive('genreOfId')
-            ->andReturn($genre);
+            ->expects($this->once())
+            ->method('save')
+            ->with($genre)
+            ->willReturn(true);
 
         $service = new CreateGenreService($repository);
         $response = $service->execute(
             new CreateGenreRequest($name)
         );
-
-        self::assertEquals($id, $response->genre['id']);
-        self::assertEquals($name, $response->genre['name']);
     }
 
     public function testNotCreate(): void
     {
-        $repository = Mockery::mock(GenreRepository::class);
+        $genre = GenreObjectMother::createOne();
+
+        $repository = $this->createMock(GenreRepository::class);
         $repository
-            ->shouldReceive('save')
-            ->andReturn(false);
+            ->expects($this->once())
+            ->method('nextIdentity')
+            ->willReturn($genre->id());
         $repository
-            ->shouldReceive('nextIdentity')
-            ->andReturn(new GenreId('bd207a1c-fe19-4ed2-a61b-c315ca95d38c'));
+            ->expects($this->once())
+            ->method('save')
+            ->with($genre)
+            ->willReturn(false);
 
         $this->expectException(Exception::class);
 
         $service = new CreateGenreService($repository);
         $service->execute(
-            new CreateGenreRequest('Adventure')
+            new CreateGenreRequest(strval($genre->name()))
         );
     }
 
@@ -75,11 +72,11 @@ class CreateGenreServiceTest extends TestCase
      */
     public function testInvalidArguments(string $name): void
     {
-        $this->expectException(InvalidArgumentException::class);
-
         $service = new CreateGenreService(
-            Mockery::mock(GenreRepository::class)
+            $this->createMock(GenreRepository::class)
         );
+        
+        $this->expectException(InvalidArgumentException::class);
 
         $service->execute(
             new CreateGenreRequest($name)
@@ -92,9 +89,9 @@ class CreateGenreServiceTest extends TestCase
     public function dataProviderValidArguments(): array
     {
         return [
-            ['Foo'],
-            ['Adventure'],
-            ["this isn't too large"],
+            ['bd207a1c-fe19-4ed2-a61b-c315ca95d38c' ,'Foo'],
+            ['bd207a1c-fe19-4ed2-a61b-c315ca95d38c', 'Adventure'],
+            ['bd207a1c-fe19-4ed2-a61b-c315ca95d38c', "this isn't too large"],
         ];
     }
 

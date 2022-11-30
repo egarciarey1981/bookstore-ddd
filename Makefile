@@ -35,10 +35,10 @@ phpcbf: ## PHP_CodeSniffer Fixer
 	docker run --rm -v $(PWD):/app cytopia/phpcbf --standard=PSR12 /app/src /app/tests --ignore=/app/tests/reports
 
 
-test-unit: ## test unitarios
+test-unit: up ## test unitarios
 	docker exec -it bookstore_php vendor/bin/phpunit --no-coverage --testsuite Unit
-test-coverage: ## test de covertura
+test-coverage: up ## test de covertura
 	docker exec -it bookstore_php vendor/bin/phpunit --testsuite Unit
-test-mutant: ## test mutantes
+test-mutant: up ## test mutantes
 	docker exec -it bookstore_php vendor/bin/infection --filter=src
 

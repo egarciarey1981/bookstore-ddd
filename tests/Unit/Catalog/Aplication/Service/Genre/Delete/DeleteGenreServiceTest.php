@@ -6,93 +6,87 @@ namespace Tests\Unit\Catalog\Application\Service\Genre\List;
 
 use App\Catalog\Application\Service\Genre\Delete\DeleteGenreRequest;
 use App\Catalog\Application\Service\Genre\Delete\DeleteGenreService;
-use App\Catalog\Domain\Model\Genre\Genre;
-use App\Catalog\Domain\Model\Genre\GenreId;
-use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
 use Exception;
 use InvalidArgumentException;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 
 class DeleteGenreServiceTest extends TestCase
 {
     public function testDelete(): void
     {
-        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
-        $genreId = new GenreId($id);
+        $genre = GenreObjectMother::createOne();
 
-        $genre = new Genre(
-            $genreId,
-            new GenreName('Adventure'),
-        );
-
-        $repository = Mockery::mock(GenreRepository::class);
+        $repository = $this->createMock(GenreRepository::class);
         $repository
-            ->shouldReceive('genreOfId')
-            ->andReturn($genre, null);
+            ->expects($this->once())
+            ->method('genreOfId')
+            ->with($genre->id())
+            ->willReturn($genre);
         $repository
-            ->shouldReceive('remove')
-            ->andReturn(true);
+            ->expects($this->once())
+            ->method('remove')
+            ->with($genre)
+            ->willReturn(true);
 
         $service = new DeleteGenreService($repository);
         $service->execute(
-            new DeleteGenreRequest($id)
+            new DeleteGenreRequest(strval($genre->id()))
         );
-
-        self::assertNull($repository->genreOfId($genreId));
     }
-
 
     public function testNotDelete(): void
     {
-        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
-        $genreId = new GenreId($id);
+        $genre = GenreObjectMother::createOne();
 
-        $genre = new Genre(
-            $genreId,
-            new GenreName('Adventure'),
-        );
-
-        $repository = Mockery::mock(GenreRepository::class);
+        $repository = $this->createMock(GenreRepository::class);
         $repository
-            ->shouldReceive('genreOfId')
-            ->andReturn($genre);
+            ->expects($this->once())
+            ->method('genreOfId')
+            ->with($genre->id())
+            ->willReturn($genre);
         $repository
-            ->shouldReceive('remove')
-            ->andReturn(false);
+            ->expects($this->once())
+            ->method('remove')
+            ->with($genre)
+            ->willReturn(false);
 
         $this->expectException(Exception::class);
 
         $service = new DeleteGenreService($repository);
         $service->execute(
-            new DeleteGenreRequest($id)
+            new DeleteGenreRequest(strval($genre->id()))
         );
     }
 
     public function testNotFound(): void
     {
+        $genre = GenreObjectMother::createOne();
+
+        $repository = $this->createMock(GenreRepository::class);
+        $repository
+            ->expects($this->once())
+            ->method('genreOfId')
+            ->with($genre->id())
+            ->willReturn(null);
+
         $this->expectException(GenreNotFoundException::class);
 
-        $repository = Mockery::mock(GenreRepository::class);
-        $repository
-            ->shouldReceive('genreOfId')
-            ->andReturn(null);
-        
         $service = new DeleteGenreService($repository);
         $service->execute(
-            new DeleteGenreRequest('bd207a1c-fe19-4ed2-a61b-c315ca95d38c')
+            new DeleteGenreRequest(strval($genre->id()))
         );
     }
 
     public function testInvalidArgument(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-
         $service = new DeleteGenreService(
-            Mockery::mock(GenreRepository::class)
+            $this->createMock(GenreRepository::class)
         );
+        
+        $this->expectException(InvalidArgumentException::class);
 
         $service->execute(
             new DeleteGenreRequest('invalid uuid')

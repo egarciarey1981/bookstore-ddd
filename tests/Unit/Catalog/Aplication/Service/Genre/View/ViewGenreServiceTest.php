@@ -6,58 +6,50 @@ namespace Tests\Unit\Catalog\Application\Service\Genre\View;
 
 use App\Catalog\Application\Service\Genre\View\ViewGenreRequest;
 use App\Catalog\Application\Service\Genre\View\ViewGenreService;
-use App\Catalog\Domain\Model\Genre\Genre;
-use App\Catalog\Domain\Model\Genre\GenreId;
-use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
 use InvalidArgumentException;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 
 class ViewGenreServiceTest extends TestCase
 {
     public function testFind(): void
     {
+        $genre = GenreObjectMother::createOne();
 
-        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
-        $name = 'Adventure';
-
-        $genreId = new GenreId($id);
-        $genreName = new GenreName($name);
-
-        $genre = new Genre(
-            $genreId,
-            $genreName,
-        );
-
-        $repository = Mockery::mock(GenreRepository::class);
+        $repository = $this->createMock(GenreRepository::class);
         $repository
-            ->shouldReceive('genreOfId')
-            ->andReturn($genre);
+            ->expects($this->once())
+            ->method('genreOfId')
+            ->with($genre->id())
+            ->willReturn($genre);
 
         $service = new ViewGenreService($repository);
         $response = $service->execute(
-            new ViewGenreRequest($id)
+            new ViewGenreRequest(strval($genre->id()))
         );
 
-        self::assertEquals($id, $response->genre['id']);
-        self::assertEquals($name, $response->genre['name']);
+        self::assertEquals(strval($genre->id()), $response->genre['id']);
+        self::assertEquals(strval($genre->name()), $response->genre['name']);
     }
 
-    public function testNotFind(): void
+    public function testNotFound(): void
     {
+        $genre = GenreObjectMother::createOne();
+
+        $repository = $this->createMock(GenreRepository::class);
+        $repository
+            ->expects($this->once())
+            ->method('genreOfId')
+            ->with($genre->id())
+            ->willReturn(null);
+
         $this->expectException(GenreNotFoundException::class);
 
-        $repository = Mockery::mock(GenreRepository::class);
-        $repository
-            ->shouldReceive('genreOfId')
-            ->andReturn(null);
-      
         $service = new ViewGenreService($repository);
-
         $service->execute(
-            new ViewGenreRequest('bd207a1c-fe19-4ed2-a61b-c315ca95d38c')
+            new ViewGenreRequest(strval($genre->id()))
         );
     }
 
@@ -65,32 +57,34 @@ class ViewGenreServiceTest extends TestCase
     {
         $message = '';
 
-        $repository = Mockery::mock(GenreRepository::class);
-        $repository
-            ->shouldReceive('genreOfId')
-            ->andReturn(null);
+        $genre = GenreObjectMother::createOne();
 
-        $service = new ViewGenreService($repository);
+        $repository = $this->createMock(GenreRepository::class);
+        $repository
+            ->expects($this->once())
+            ->method('genreOfId')
+            ->with($genre->id())
+            ->willReturn(null);
 
         try {
+            $service = new ViewGenreService($repository);
             $service->execute(
-                new ViewGenreRequest('bd207a1c-fe19-4ed2-a61b-c315ca95d38c')
+                new ViewGenreRequest(strval($genre->id()))
             );
         } catch (GenreNotFoundException $e) {
             $message = $e->getMessage();
         }
-
 
         self::assertEquals('Genre not found', $message);
     }
 
     public function testInvalidUuid(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-
         $service = new ViewGenreService(
-            Mockery::mock(GenreRepository::class)
+            $this->createMock(GenreRepository::class)
         );
+        
+        $this->expectException(InvalidArgumentException::class);
 
         $service->execute(
             new ViewGenreRequest('invalid uuid')

@@ -6,97 +6,85 @@ namespace Tests\Unit\Catalog\Application\Service\Genre\View;
 
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreRequest;
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreService;
-use App\Catalog\Domain\Model\Genre\Genre;
-use App\Catalog\Domain\Model\Genre\GenreId;
-use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
 use Exception;
 use InvalidArgumentException;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 
 class UpdateGenreServiceTest extends TestCase
 {
     public function testUpdate(): void
     {
-        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
-        $genreId = new GenreId($id);
+        $genre = GenreObjectMother::createOne();
 
-        $oldName = 'Terror';
-        $newName = 'Adventure';
-
-        $oldGenreName = new GenreName($oldName);
-        $newGenreName = new GenreName($newName);
-
-        $oldGenre = new Genre($genreId, $oldGenreName);
-        $newGenre = new Genre($genreId, $newGenreName);
-
-        $repository = Mockery::mock(GenreRepository::class);
+        $repository = $this->createMock(GenreRepository::class);
         $repository
-            ->shouldReceive('genreOfId')
-            ->andReturn($oldGenre, $newGenre);
+            ->expects($this->once())
+            ->method('genreOfId')
+            ->with($genre->id())
+            ->willReturn($genre);
         $repository
-            ->shouldReceive('save')
-            ->andReturn(true)
-            ->once();
+            ->expects($this->once())
+            ->method('save')
+            ->with($genre)
+            ->willReturn(true);
 
         $service = new UpdateGenreService($repository);
-        $response = $service->execute(
+        $service->execute(
             new UpdateGenreRequest(
-                $id,
-                $newName
+                strval($genre->id()),
+                strval($genre->name()),
             )
         );
-
-        $genre = $repository->genreOfId($genreId);
-
-        self::assertEquals($newName, $response->genre['name']);
     }
+
     public function testNotUpdate(): void
     {
-        $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
-        $name = 'Terror';
+        $genre = GenreObjectMother::createOne();
 
-        $genreId = new GenreId($id);
-        $genreName = new GenreName($name);
-
-        $genre = new Genre($genreId, $genreName);
-
-        $repository = Mockery::mock(GenreRepository::class);
+        $repository = $this->createMock(GenreRepository::class);
         $repository
-            ->shouldReceive('genreOfId')
-            ->andReturn($genre);
+            ->expects($this->once())
+            ->method('genreOfId')
+            ->with($genre->id())
+            ->willReturn($genre);
         $repository
-            ->shouldReceive('save')
-            ->andReturn(false)
-            ->once();
+            ->expects($this->once())
+            ->method('save')
+            ->with($genre)
+            ->willReturn(false);
 
         $this->expectException(Exception::class);
 
         $service = new UpdateGenreService($repository);
         $service->execute(
             new UpdateGenreRequest(
-                $id,
-                $name
+                strval($genre->id()),
+                strval($genre->name()),
             )
         );
     }
 
-    public function testNotFind(): void
+    public function testNotFound(): void
     {
-        $this->expectException(GenreNotFoundException::class);
+        $genre = GenreObjectMother::createOne();
 
-        $repository = Mockery::mock(GenreRepository::class);
+        $repository = $this->createMock(GenreRepository::class);
         $repository
-            ->shouldReceive('genreOfId')
-            ->andReturn(null);
+            ->expects($this->once())
+            ->method('genreOfId')
+            ->with($genre->id())
+            ->willReturn(null);
+
+        $this->expectException(GenreNotFoundException::class);
 
         $service = new UpdateGenreService($repository);
         $service->execute(
             new UpdateGenreRequest(
-                'bd207a1c-fe19-4ed2-a61b-c315ca95d38c',
-                'Adventure',
+                strval($genre->id()),
+                strval($genre->name()),
             )
         );
     }
@@ -106,17 +94,14 @@ class UpdateGenreServiceTest extends TestCase
      */
     public function testInvalidArguments(string $id, string $name): void
     {
-        $this->expectException(InvalidArgumentException::class);
-
         $service = new UpdateGenreService(
-            Mockery::mock(GenreRepository::class)
+            $this->createMock(GenreRepository::class)
         );
 
+        $this->expectException(InvalidArgumentException::class);
+
         $service->execute(
-            new UpdateGenreRequest(
-                $id,
-                $name,
-            )
+            new UpdateGenreRequest($id, $name)
         );
     }
 
