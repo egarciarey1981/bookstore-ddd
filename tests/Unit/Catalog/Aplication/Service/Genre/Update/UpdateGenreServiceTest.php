@@ -11,6 +11,7 @@ use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Infrastructure\Persistence\InMemory\InMemoryGenreRepository;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class UpdateGenreServiceTest extends TestCase
@@ -55,5 +56,37 @@ class UpdateGenreServiceTest extends TestCase
                 'Adventure',
             )
         );
+    }
+
+    /**
+     * @dataProvider dataProviderInvalidArguments
+     */
+    public function testInvalidArguments(string $id, string $name): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $service = new UpdateGenreService(
+            new InMemoryGenreRepository()
+        );
+
+        $service->execute(
+            new UpdateGenreRequest(
+                $id,
+                $name,
+            )
+        );
+    }
+
+    /**
+     * @return array<array<string>>
+     */
+    public function dataProviderInvalidArguments(): array
+    {
+        return [
+            ['invalid uuid', 'Adventure'],
+            ['bd207a1c-fe19-4ed2-a61b-c315ca95d38c', ''],
+            ['bd207a1c-fe19-4ed2-a61b-c315ca95d38c', 'ab'],
+            ['bd207a1c-fe19-4ed2-a61b-c315ca95d38c', 'this genre name is too long'],
+        ];
     }
 }

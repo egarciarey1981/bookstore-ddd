@@ -11,6 +11,7 @@ use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Infrastructure\Persistence\InMemory\InMemoryGenreRepository;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class DeleteGenreServiceTest extends TestCase
@@ -37,13 +38,28 @@ class DeleteGenreServiceTest extends TestCase
 
     public function testNotFound(): void
     {
+        $this->expectException(GenreNotFoundException::class);
+
         $id = 'bd207a1c-fe19-4ed2-a61b-c315ca95d38c';
 
         $service = new DeleteGenreService(
             new InMemoryGenreRepository()
         );
 
-        $this->expectException(GenreNotFoundException::class);
+        $service->execute(
+            new DeleteGenreRequest($id)
+        );
+    }
+
+    public function testInvalidArgument(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $id = 'invalid uuid';
+
+        $service = new DeleteGenreService(
+            new InMemoryGenreRepository()
+        );
 
         $service->execute(
             new DeleteGenreRequest($id)
