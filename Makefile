@@ -1,13 +1,5 @@
 .PHONY: help
 
-USER_ID=$(shell id -u)
-GROUP_ID=$(shell id -g)
-
-IMAGE_PHPUNIT=jitesoft/phpunit:8.1
-
-DOCKER_PHP=docker exec -it -u $(USER_ID):$(GROUP_ID) bookstore_php 
-DOCKER_PHPUNIT=docker run --rm -i -v $(PWD):/app -w /app jitesoft/phpunit phpunit
-
 
 help:
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-22s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -43,11 +35,9 @@ phpstan: ## phpstan
 	$(DOCKER_PHP) ./vendor/bin/phpstan analyse --xdebug --level 6 ./src ./tests
 	
 
-
 test-cover: ## test de covertura
 	$(DOCKER_PHP) vendor/bin/phpunit --testsuite Unit
 test-unit: ## test unitarios
 	$(DOCKER_PHP) vendor/bin/phpunit --no-coverage --testsuite Unit
 test-mutants: ## test mutantes
 	$(DOCKER_PHP) vendor/bin/infection --filter=src
-
