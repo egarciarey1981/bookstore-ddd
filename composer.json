@@ -1,16 +1,17 @@
 {
     "require": {
         "php-di/php-di": "^6.4",
-        "ramsey/uuid": "*",
+        "ramsey/uuid": "^4.6",
         "slim/psr7": "^1.6",
-        "slim/slim": "4.*"
+        "slim/slim": "^4.11"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "*",
-        "fakerphp/faker": "*",
-        "infection/infection": "*",
-        "phpstan/phpstan": "*",
-        "phpunit/phpunit": "*"
+        "squizlabs/php_codesniffer": "^3.7",
+        "fakerphp/faker": "^1.20",
+        "infection/infection": "^0.26",
+        "phpmd/phpmd": "^2.13",
+        "phpstan/phpstan": "^1.9",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
