@@ -36,11 +36,11 @@ composer-dump: up ## actualiza autoload
 
 
 phpstan: ## PHPStan
-	docker run --rm -v $(PWD):/app ghcr.io/phpstan/phpstan analyse --level 6 /app/src /app/tests
+	$(DOCKER_PHP) ./vendor/bin/phpstan analyse --xdebug --level 6 ./src ./tests
 phpcs: ## PHP_CodeSniffer
-	docker run --rm -v $(PWD):/app cytopia/phpcs --standard=PSR12 /app/src /app/tests --ignore=/app/tests/reports
+	$(DOCKER_PHP) ./vendor/bin/phpcs --standard=PSR12 ./src ./tests --ignore=/app/tests/reports
 phpcbf: ## PHP_CodeSniffer Fixer
-	docker run --rm -v $(PWD):/app cytopia/phpcbf --standard=PSR12 /app/src /app/tests --ignore=/app/tests/reports
+	$(DOCKER_PHP) ./vendor/bin/phpcs --standard=PSR12 ./src ./tests --ignore=/app/tests/reports
 
 
 test-unit: up ## test unitarios
