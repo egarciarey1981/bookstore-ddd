@@ -19,3 +19,15 @@ services:
     volumes:
       - ./:/var/www/html/
       - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+  mariadb:
+    container_name: bookstore_mariadb
+    build: ./docker/mariadb
+    ports:
+      - 3306:3306
+    environment:
+      - MARIADB_USER=user
+      - MARIADB_PASSWORD=password
+      - MARIADB_ROOT_PASSWORD=root
+    volumes:
+      - ./docker/mariadb/initdb-schema.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./docker/mariadb/initdb-data.sql:/docker-entrypoint-initdb.d/2.sql
