@@ -10,43 +10,41 @@ DOCKER_PHPUNIT=docker run --rm -i -v $(PWD):/app -w /app jitesoft/phpunit phpuni
 
 
 help:
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-22s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 
-up: ## levantar
-	docker-compose up -d --build
-start: ## iniciar
-	docker-compose start
-stop: ## parar
-	docker-compose stop
-down: ## bajar
+docker-compose-down: ## docker-compose down
 	docker-compose down
-ps: ## estado
-	docker-compose ps
-log: ## log
+docker-compose-exec: ## docker-compose exec
+	$(DOCKER_PHP) sh
+docker-compose-logs: ## docker-compose -f docker-compose.yml logs --tail=100 -f
 	docker-compose -f docker-compose.yml logs --tail=100 -f
+docker-compose-ps: ## docker-compose ps
+	docker-compose ps
+docker-compose-up: ## docker-compose up -d --build
+	docker-compose up -d --build
 
 
-composer-install: up ## instala dependencias de composer
-	docker run --rm --interactive --tty --volume $(PWD):/app composer install
-composer-update: up ## actualiza dependencias de composer
-	docker run --rm --interactive --tty --volume $(PWD):/app composer update
-composer-dump: up ## actualiza autoload
-	docker run --rm --interactive --tty --volume $(PWD):/app composer dump-autoload
+composer-install: ## composer install
+	$(DOCKER_PHP) composer install
+composer-down: ## composer dump-autoload
+	$(DOCKER_PHP) composer dump-autoload
+composer-update: ## composer update 
+	$(DOCKER_PHP) composer update
 
 
-phpstan: ## PHPStan
+check-phpcbf: ## phpcbf
+	$(DOCKER_PHP) ./vendor/bin/phpcbf --standard=PSR12 ./src ./tests --ignore=/app/tests/reports
+check-phpcs: ## phpcs
+	$(DOCKER_PHP) ./vendor/bin/phpcs --standard=PSR12 ./src ./tests --ignore=/app/tests/reports
+check-phpstan: ## phpstan
 	$(DOCKER_PHP) ./vendor/bin/phpstan analyse --xdebug --level 6 ./src ./tests
-phpcs: ## PHP_CodeSniffer
-	$(DOCKER_PHP) ./vendor/bin/phpcs --standard=PSR12 ./src ./tests --ignore=/app/tests/reports
-phpcbf: ## PHP_CodeSniffer Fixer
-	$(DOCKER_PHP) ./vendor/bin/phpcs --standard=PSR12 ./src ./tests --ignore=/app/tests/reports
 
 
-test-unit: up ## test unitarios
-	$(DOCKER_PHPUNIT) --no-coverage --testsuite Unit
-test-coverage: up ## test de covertura
-	$(DOCKER_PHPUNIT) --testsuite Unit
-test-mutant: up ## test mutantes
+test-phpunit-cover: ## test de covertura
+	$(DOCKER_PHP) vendor/bin/phpunit --testsuite Unit
+test-phpunit-unit: ## test unitarios
+	$(DOCKER_PHP) vendor/bin/phpunit --no-coverage --testsuite Unit
+test-infection: ## test mutantes
 	$(DOCKER_PHP) vendor/bin/infection --filter=src
 

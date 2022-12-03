@@ -9,7 +9,8 @@
         "squizlabs/php_codesniffer": "*",
         "fakerphp/faker": "*",
         "infection/infection": "*",
-        "phpstan/phpstan": "*"
+        "phpstan/phpstan": "*",
+        "phpunit/phpunit": "*"
     },
     "autoload": {
         "psr-4": {
