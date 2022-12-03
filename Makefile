@@ -1,5 +1,7 @@
 .PHONY: help
 
+DOCKER_PHP=docker exec -it -u $(USER_ID):$(GROUP_ID) bookstore_php 
+
 
 help:
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-22s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -40,4 +42,4 @@ test-cover: ## test de covertura
 test-unit: ## test unitarios
 	$(DOCKER_PHP) vendor/bin/phpunit --no-coverage --testsuite Unit
 test-mutants: ## test mutantes
-	$(DOCKER_PHP) vendor/bin/infection --filter=src
+	$(DOCKER_PHP) vendor/bin/infection --filter=./src --logger-html='./reports/mutation-report.html'
