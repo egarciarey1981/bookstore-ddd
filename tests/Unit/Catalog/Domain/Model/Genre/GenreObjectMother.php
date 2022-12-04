@@ -10,7 +10,7 @@ use App\Catalog\Domain\Model\Genre\GenreName;
 
 class GenreObjectMother
 {
-    public static function createOne()
+    public static function createOne(): Genre
     {
         $faker = \Faker\Factory::create();
 

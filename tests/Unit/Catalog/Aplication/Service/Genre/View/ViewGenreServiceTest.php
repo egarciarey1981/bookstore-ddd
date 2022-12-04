@@ -83,7 +83,7 @@ class ViewGenreServiceTest extends TestCase
         $service = new ViewGenreService(
             $this->createMock(GenreRepository::class)
         );
-        
+
         $this->expectException(InvalidArgumentException::class);
 
         $service->execute(

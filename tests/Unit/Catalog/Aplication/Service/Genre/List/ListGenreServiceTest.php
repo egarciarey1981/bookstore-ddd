@@ -17,7 +17,7 @@ class ListGenreServiceTest extends TestCase
         $total = 3;
 
         $genres = [];
-        for($i=0; $i<$total; $i++){
+        for ($i = 0; $i < $total; $i++) {
             $genres[] = GenreObjectMother::createOne();
         }
 

@@ -28,9 +28,9 @@ composer-update: ## composer update
 
 
 phpcbf: ## php code beautifier and fixer
-	$(DOCKER_PHP) ./vendor/bin/phpcbf --standard=PSR12 ./src ./tests --ignore=/app/tests/reports
+	$(DOCKER_PHP) ./vendor/bin/phpcbf --standard=PSR12 ./src ./tests --ignore=./tests/reports
 phpcs: ## php code sniffer
-	$(DOCKER_PHP) ./vendor/bin/phpcs --standard=PSR12 ./src ./tests --ignore=/app/tests/reports
+	$(DOCKER_PHP) ./vendor/bin/phpcs --standard=PSR12 ./src ./tests --ignore=./tests/reports
 phpmd: ## php mess detector
 	$(DOCKER_PHP) ./vendor/bin/phpmd ./src text cleancode,codesize,controversial,design,naming,unusedcode
 phpstan: ## phpstan

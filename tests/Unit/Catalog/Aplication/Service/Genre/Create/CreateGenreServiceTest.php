@@ -75,7 +75,7 @@ class CreateGenreServiceTest extends TestCase
         $service = new CreateGenreService(
             $this->createMock(GenreRepository::class)
         );
-        
+
         $this->expectException(InvalidArgumentException::class);
 
         $service->execute(

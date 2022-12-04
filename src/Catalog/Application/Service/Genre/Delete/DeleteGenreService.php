@@ -18,7 +18,7 @@ class DeleteGenreService extends GenreService
             throw new GenreNotFoundException();
         }
 
-        if(!$this->genreRepository->remove($genre)){
+        if (!$this->genreRepository->remove($genre)) {
             throw new Exception();
         }
 

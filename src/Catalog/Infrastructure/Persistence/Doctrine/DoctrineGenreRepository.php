@@ -12,6 +12,8 @@ use Ramsey\Uuid\Uuid;
 
 class DoctrineGenreRepository implements GenreRepository
 {
+    private EntityManager $em;
+
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
@@ -30,9 +32,9 @@ class DoctrineGenreRepository implements GenreRepository
 
     public function save(Genre $genre): bool
     {
-        if($this->genreOfId($genre->id())){
+        if ($this->genreOfId($genre->id())) {
             $this->em->merge($genre);
-        }else{
+        } else {
             $this->em->persist($genre);
         }
 

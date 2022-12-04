@@ -17,7 +17,7 @@ class CreateGenreService extends GenreService
             $request->genreName
         );
 
-        if(!$this->genreRepository->save($genre)){
+        if (!$this->genreRepository->save($genre)) {
             throw new Exception();
         }
 

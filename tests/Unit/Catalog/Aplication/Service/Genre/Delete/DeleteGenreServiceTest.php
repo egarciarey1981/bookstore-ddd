@@ -85,7 +85,7 @@ class DeleteGenreServiceTest extends TestCase
         $service = new DeleteGenreService(
             $this->createMock(GenreRepository::class)
         );
-        
+
         $this->expectException(InvalidArgumentException::class);
 
         $service->execute(
