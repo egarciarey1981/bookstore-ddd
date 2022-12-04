@@ -31,3 +31,7 @@ services:
     volumes:
       - ./docker/mariadb/initdb-schema.sql:/docker-entrypoint-initdb.d/1.sql
       - ./docker/mariadb/initdb-data.sql:/docker-entrypoint-initdb.d/2.sql
+      - ./data:/var/lib/mysql
+volumes:
+  data:
+    driver: local

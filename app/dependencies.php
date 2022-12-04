@@ -24,7 +24,7 @@ return function (ContainerBuilder $containerBuilder) {
             return EntityManager::create(
                 [
                     'driver' => 'pdo_mysql',
-                    'host' => '192.168.112.3',
+                    'host' => 'mariadb',
                     'port' => 3306,
                     'dbname' => 'bookstore',
                     'user' => 'root',
