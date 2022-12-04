@@ -14,7 +14,7 @@ class InMemoryGenreRepository implements GenreRepository
     /** @var array<Genre> */
     private array $genres;
 
-    public function nextIdentity(): GenreId
+    public function nextId(): GenreId
     {
         return new GenreId(strval(Uuid::uuid4()));
     }
@@ -25,15 +25,7 @@ class InMemoryGenreRepository implements GenreRepository
         return true;
     }
 
-    public function saveAll(Genre ...$genres): bool
-    {
-        foreach ($genres as $genre) {
-            $this->save($genre);
-        }
-        return true;
-    }
-
-    public function genreOfId(GenreId $id): ?Genre
+    public function ofId(GenreId $id): ?Genre
     {
         if (!isset($this->genres[strval($id)])) {
             return null;

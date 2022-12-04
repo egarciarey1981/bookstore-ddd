@@ -19,37 +19,26 @@ class DoctrineGenreRepository implements GenreRepository
         $this->em = $em;
     }
 
-    public function nextIdentity(): GenreId
+    public function nextId(): GenreId
     {
         $uuid = Uuid::uuid4();
         return new GenreId($uuid->toString());
     }
 
-    public function genreOfId(GenreId $id): ?Genre
+    public function ofId(GenreId $id): ?Genre
     {
         return $this->em->find('App\Catalog\Domain\Model\Genre\Genre', $id);
     }
 
     public function save(Genre $genre): bool
     {
-        if ($this->genreOfId($genre->id())) {
+        if ($this->ofId($genre->id())) {
             $this->em->merge($genre);
         } else {
             $this->em->persist($genre);
         }
 
         $this->em->flush();
-        return true;
-    }
-
-    public function saveAll(Genre ...$genres): bool
-    {
-        foreach ($genres as $genre) {
-            if (!$this->save($genre)) {
-                return false;
-            }
-        }
-
         return true;
     }
 

@@ -21,7 +21,7 @@ class ViewGenreServiceTest extends TestCase
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
-            ->method('genreOfId')
+            ->method('ofId')
             ->with($genre->id())
             ->willReturn($genre);
 
@@ -41,7 +41,7 @@ class ViewGenreServiceTest extends TestCase
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
-            ->method('genreOfId')
+            ->method('ofId')
             ->with($genre->id())
             ->willReturn(null);
 
@@ -62,7 +62,7 @@ class ViewGenreServiceTest extends TestCase
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
-            ->method('genreOfId')
+            ->method('ofId')
             ->with($genre->id())
             ->willReturn(null);
 

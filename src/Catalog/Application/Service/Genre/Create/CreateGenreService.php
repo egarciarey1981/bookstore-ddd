@@ -13,7 +13,7 @@ class CreateGenreService extends GenreService
     public function execute(CreateGenreRequest $request): CreateGenreResponse
     {
         $genre = new Genre(
-            $this->genreRepository->nextIdentity(),
+            $this->genreRepository->nextId(),
             $request->genreName
         );
 

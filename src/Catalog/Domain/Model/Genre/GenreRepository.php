@@ -6,10 +6,9 @@ namespace App\Catalog\Domain\Model\Genre;
 
 interface GenreRepository
 {
-    public function nextIdentity(): GenreId;
-    public function genreOfId(GenreId $id): ?Genre;
+    public function nextId(): GenreId;
+    public function ofId(GenreId $id): ?Genre;
     public function save(Genre $genre): bool;
-    public function saveAll(Genre ...$genres): bool;
     public function remove(Genre $genre): bool;
     /**
      * @return array<Genre>

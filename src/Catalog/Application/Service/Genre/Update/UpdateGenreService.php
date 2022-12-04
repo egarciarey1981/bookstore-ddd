@@ -14,7 +14,7 @@ class UpdateGenreService extends GenreService
 {
     public function execute(UpdateGenreRequest $request): UpdateGenreResponse
     {
-        $oldGenre = $this->genreRepository->genreOfId($request->genreId);
+        $oldGenre = $this->genreRepository->ofId($request->genreId);
 
         if (is_null($oldGenre)) {
             throw new GenreNotFoundException();
