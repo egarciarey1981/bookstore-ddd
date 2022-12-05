@@ -9,7 +9,7 @@
         "@default": true
     },
     "logs": {
-        "html": "tests/reports/mutants/infection.html",
+        "html": "reports/mutants/infection.html",
     },
     "phpUnit": {
         "customPath": "vendor/bin/phpunit"

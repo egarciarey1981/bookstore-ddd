@@ -28,20 +28,21 @@ composer-update: ## composer update
 
 
 phpcbf: ## php code beautifier and fixer
-	$(DOCKER_PHP) ./vendor/bin/phpcbf --standard=PSR12 ./src ./tests --ignore=./tests/reports
+	$(DOCKER_PHP) ./vendor/bin/phpcbf --standard=PSR12 src tests
 phpcs: ## php code sniffer
-	$(DOCKER_PHP) ./vendor/bin/phpcs --standard=PSR12 ./src ./tests --ignore=./tests/reports
+	$(DOCKER_PHP) ./vendor/bin/phpcs --standard=PSR12 src tests
 phpmd: ## php mess detector
 	$(DOCKER_PHP) ./vendor/bin/phpmd ./src text cleancode,codesize,controversial,design,naming,unusedcode
 phpstan: ## phpstan
 	$(DOCKER_PHP) ./vendor/bin/phpstan analyse --xdebug --level 6 ./src ./tests
 	
-
-test-cover: ## test de covertura
-	$(DOCKER_PHP) vendor/bin/phpunit --testsuite Unit,Integration
+test-all: ## todos los test
+	$(DOCKER_PHP) vendor/bin/phpunit --no-coverage --testsuite Unit,Integration
 test-unit: ## test unitarios
 	$(DOCKER_PHP) vendor/bin/phpunit --no-coverage --testsuite Unit
 test-integration: ## test de integración
 	$(DOCKER_PHP) vendor/bin/phpunit --no-coverage --testsuite Integration
+test-cover: ## test de covertura
+	$(DOCKER_PHP) vendor/bin/phpunit --testsuite Unit,Integration
 test-mutants: ## test mutantes
-	$(DOCKER_PHP) vendor/bin/infection --filter=./src --logger-html='./reports/mutation-report.html'
+	$(DOCKER_PHP) vendor/bin/infection

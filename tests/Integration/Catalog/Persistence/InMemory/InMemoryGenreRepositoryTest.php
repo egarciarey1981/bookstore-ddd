@@ -28,7 +28,7 @@ class CreateGenreServiceTest extends TestCase
     {
         $repo = new InMemoryGenreRepository();
         $genres = [];
-        
+
         for ($i = 0; $i < 5; $i++) {
             $genre = GenreObjectMother::createOne();
             $genres[] = $genre;
@@ -39,9 +39,9 @@ class CreateGenreServiceTest extends TestCase
 
         self::assertEquals(count($genres), count($genresFound));
 
-        foreach($genres as $genre) {
-            foreach($genresFound as $genreFound) {
-                if($genre->equals($genreFound)) {
+        foreach ($genres as $genre) {
+            foreach ($genresFound as $genreFound) {
+                if ($genre->equals($genreFound)) {
                     self::assertTrue(true);
                     continue 2;
                 }
@@ -64,7 +64,7 @@ class CreateGenreServiceTest extends TestCase
 
         $repo = new InMemoryGenreRepository();
         $repo->save($genre);
-        
+
         self::assertTrue($repo->remove($genre));
         self::assertNull($repo->ofId($genre->id()));
     }
