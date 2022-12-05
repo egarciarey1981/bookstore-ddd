@@ -1,6 +1,6 @@
 .PHONY: help
 
-DOCKER_PHP=docker exec -it -u $(USER_ID):$(GROUP_ID) bookstore_php 
+DOCKER_PHP=docker exec -it bookstore_php 
 
 
 help:
