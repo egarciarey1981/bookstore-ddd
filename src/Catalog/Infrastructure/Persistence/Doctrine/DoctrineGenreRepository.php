@@ -32,7 +32,7 @@ class DoctrineGenreRepository implements GenreRepository
 
     public function contains(Genre $genre): bool
     {
-        return is_null($this->em->find('App\Catalog\Domain\Model\Genre\Genre', trval($genre->id)));
+        return !is_null($this->em->find('App\Catalog\Domain\Model\Genre\Genre', $genre->id()));
     }
 
     public function save(Genre $genre): bool
@@ -49,6 +49,10 @@ class DoctrineGenreRepository implements GenreRepository
 
     public function remove(Genre $genre): bool
     {
+        if (!$this->contains($genre)) {
+            return false;
+        }
+
         $this->em->remove($genre);
         $this->em->flush();
         return true;
