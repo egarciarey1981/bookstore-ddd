@@ -7,6 +7,7 @@ namespace App\Catalog\Application\Service\Genre\Update;
 use App\Catalog\Application\Service\Genre\GenreService;
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreRequest;
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreResponse;
+use App\Catalog\Domain\Model\Genre\Genre;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use Exception;
 
@@ -14,18 +15,19 @@ class UpdateGenreService extends GenreService
 {
     public function execute(UpdateGenreRequest $request): UpdateGenreResponse
     {
-        $oldGenre = $this->genreRepository->ofId($request->genreId);
+        $genre = new Genre(
+            $request->genreId,
+            $request->genreName,
+        );
 
-        if (is_null($oldGenre)) {
+        if (!$this->genreRepository->contains($genre)) {
             throw new GenreNotFoundException();
         }
-
-        $newGenre = $oldGenre->changeName($request->genreName);
-
-        if (!$this->genreRepository->save($newGenre)) {
+        
+        if (!$this->genreRepository->save($genre)) {
             throw new Exception();
         }
 
-        return new UpdateGenreResponse($newGenre);
+        return new UpdateGenreResponse($genre);
     }
 }

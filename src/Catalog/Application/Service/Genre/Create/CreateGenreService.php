@@ -14,7 +14,7 @@ class CreateGenreService extends GenreService
     {
         $genre = new Genre(
             $this->genreRepository->nextId(),
-            $request->genreName
+            $request->genreName,
         );
 
         if (!$this->genreRepository->save($genre)) {

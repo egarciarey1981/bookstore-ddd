@@ -10,6 +10,16 @@ use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 
 class CreateGenreServiceTest extends TestCase
 {
+    public function testContains(): void
+    {
+        $genre = GenreObjectMother::createOne();
+
+        $repo = new InMemoryGenreRepository();
+        $repo->save($genre);
+
+        self::assertTrue($repo->contains($genre));
+    }
+
     public function testSave(): void
     {
         $genre = GenreObjectMother::createOne();

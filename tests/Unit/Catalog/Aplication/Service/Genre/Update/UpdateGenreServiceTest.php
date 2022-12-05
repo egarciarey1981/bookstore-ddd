@@ -22,9 +22,9 @@ class UpdateGenreServiceTest extends TestCase
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
-            ->method('ofId')
-            ->with($genre->id())
-            ->willReturn($genre);
+            ->method('contains')
+            ->with($genre)
+            ->willReturn(true);
         $repository
             ->expects($this->once())
             ->method('save')
@@ -47,9 +47,9 @@ class UpdateGenreServiceTest extends TestCase
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
-            ->method('ofId')
-            ->with($genre->id())
-            ->willReturn($genre);
+            ->method('contains')
+            ->with($genre)
+            ->willReturn(true);
         $repository
             ->expects($this->once())
             ->method('save')
@@ -74,9 +74,9 @@ class UpdateGenreServiceTest extends TestCase
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
-            ->method('ofId')
-            ->with($genre->id())
-            ->willReturn(null);
+            ->method('contains')
+            ->with($genre)
+            ->willReturn(false);
 
         $this->expectException(GenreNotFoundException::class);
 
