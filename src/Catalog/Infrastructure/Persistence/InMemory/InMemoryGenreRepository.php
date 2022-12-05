@@ -36,10 +36,6 @@ class InMemoryGenreRepository implements GenreRepository
 
     public function remove(Genre $genre): bool
     {
-        if (!isset($this->genres[strval($genre->id())])) {
-            return false;
-        }
-
         unset($this->genres[strval($genre->id())]);
         return true;
     }

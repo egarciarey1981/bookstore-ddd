@@ -25,6 +25,11 @@ class Genre
         return $this->name;
     }
 
+    public function equals(Genre $genre): bool
+    {
+        return $this->id->equals($genre->id());
+    }
+
     public function changeName(GenreName $genreName): Genre
     {
         return new Genre(

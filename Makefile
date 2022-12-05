@@ -38,8 +38,10 @@ phpstan: ## phpstan
 	
 
 test-cover: ## test de covertura
-	$(DOCKER_PHP) vendor/bin/phpunit --testsuite Unit
+	$(DOCKER_PHP) vendor/bin/phpunit --testsuite Unit,Integration
 test-unit: ## test unitarios
 	$(DOCKER_PHP) vendor/bin/phpunit --no-coverage --testsuite Unit
+test-integration: ## test de integración
+	$(DOCKER_PHP) vendor/bin/phpunit --no-coverage --testsuite Integration
 test-mutants: ## test mutantes
 	$(DOCKER_PHP) vendor/bin/infection --filter=./src --logger-html='./reports/mutation-report.html'
