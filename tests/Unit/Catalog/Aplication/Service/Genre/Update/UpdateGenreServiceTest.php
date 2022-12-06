@@ -79,7 +79,7 @@ class UpdateGenreServiceTest extends TestCase
     public function testInvalidArguments(string $id, string $name): void
     {
         $genre = GenreObjectMother::createOne();
-        
+
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())

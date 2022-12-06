@@ -16,11 +16,11 @@ class UpdateGenreService extends GenreService
     {
         $genreId = new GenreId($request->id);
         $genre = $this->genreRepository->ofId($genreId);
-        
+
         if (is_null($genre)) {
             throw new GenreNotFoundException();
         }
-        
+
         $genreName = new GenreName($request->name);
         $genre->setGenreName($genreName);
 
