@@ -25,7 +25,7 @@ class CreateGenreServiceTest extends TestCase
         $genre = GenreObjectMother::createOne();
 
         $repo = new InMemoryGenreRepository();
-        self::assertTrue($repo->save($genre));
+        $repo->save($genre);
 
         $genreFound = $repo->ofId($genre->genreId());
 
@@ -71,11 +71,12 @@ class CreateGenreServiceTest extends TestCase
     public function testRemove(): void
     {
         $genre = GenreObjectMother::createOne();
-
         $repo = new InMemoryGenreRepository();
-        $repo->save($genre);
 
-        self::assertTrue($repo->remove($genre));
+        $repo->save($genre);
+        self::assertNotNull($repo->ofId($genre->genreId()));
+
+        $repo->remove($genre);
         self::assertNull($repo->ofId($genre->genreId()));
     }
 }
