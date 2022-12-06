@@ -12,14 +12,14 @@ class ListGenreAction extends GenreAction
 {
     public function action(): Response
     {
-        $listGenreRequest = new ListGenreRequest();
         $listGenreService = new ListGenreService($this->genreRepository);
-        $listGenreResponse = $listGenreService->execute($listGenreRequest);
 
-        $genres = $listGenreResponse->genres;
+        $listGenreResponse = $listGenreService->execute(
+            new ListGenreRequest()
+        );
 
-        $data = ['genres' => $genres];
-
-        return $this->respondWithData($data);
+        return $this->respondWithData([
+            'genres' => $listGenreResponse->genres
+        ]);
     }
 }

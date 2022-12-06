@@ -13,9 +13,10 @@ class ArrayGenreDataTransformer implements GenreDataTransformer
 
     public function write(Genre $genre): void
     {
-        $this->data['genre'] = [];
-        $this->data['genre']['id'] = $genre->genreId()->value();
-        $this->data['genre']['name'] = $genre->genreName()->value();
+        $array = [];
+        $array['id'] = $genre->genreId()->value();
+        $array['name'] = $genre->genreName()->value();
+        $this->data = $array;
     }
 
     public function read(): mixed

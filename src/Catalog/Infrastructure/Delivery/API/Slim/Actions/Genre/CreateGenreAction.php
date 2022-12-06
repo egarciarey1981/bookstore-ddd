@@ -6,26 +6,21 @@ namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
 use App\Catalog\Application\Service\Genre\Create\CreateGenreRequest;
 use App\Catalog\Application\Service\Genre\Create\CreateGenreService;
-use App\Catalog\Domain\Model\Genre\GenreRepository;
-use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Action;
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface as Response;
 
-class CreateGenreAction extends Action
+class CreateGenreAction extends GenreAction
 {
-    private CreateGenreService $createGenreService;
-
-    public function __construct(GenreRepository $genreRepository)
-    {
-        $this->createGenreService = new CreateGenreService($genreRepository);
-    }
-
-    public function action(): ResponseInterface
+    public function action(): Response
     {
         $formData = $this->getFormData();
 
-        $createGenreRequest = new CreateGenreRequest($formData['name']);
+        $createGenreService = new CreateGenreService($this->genreRepository);
 
-        $createGenreResponse = $this->createGenreService->execute($createGenreRequest);
+        $createGenreResponse = $createGenreService->execute(
+            new CreateGenreRequest(
+                $formData['name'],
+            )
+        );
 
         $this->setHeader('Location', '/catalog/genre/' . $createGenreResponse->id);
 
