@@ -15,5 +15,5 @@ class GenreIdTest extends TestCase
         $value = Uuid::uuid4()->toString();
         $genreId = new GenreId($value);
         self::assertEquals($value, strval($genreId));
-    } 
+    }
 }

@@ -21,6 +21,6 @@ class CreateGenreService extends GenreService
             )
         );
 
-        return new CreateGenreResponse($genreId()->value());
+        return new CreateGenreResponse($genreId->value());
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Catalog\Application\Service\Genre\View;
 
+use App\Catalog\Application\DataTransformer\Genre\ArrayGenreDataTransformer;
 use App\Catalog\Application\Service\Genre\View\ViewGenreRequest;
 use App\Catalog\Application\Service\Genre\View\ViewGenreService;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
@@ -25,13 +26,21 @@ class ViewGenreServiceTest extends TestCase
             ->with($genre->genreId())
             ->willReturn($genre);
 
-        $service = new ViewGenreService($repository);
-        $response = $service->execute(
+        $service = new ViewGenreService(
+            $repository,
+            new ArrayGenreDataTransformer(),
+        );
+
+        $service->execute(
             new ViewGenreRequest($genre->genreId()->value())
         );
 
-        self::assertEquals($genre->genreId()->value(), $response->genre['id']);
-        self::assertEquals($genre->genreName()->value(), $response->genre['name']);
+        $genreDataTransformer = $service->genreDataTransformer();
+
+        $array = $genreDataTransformer->read();
+
+        self::assertEquals($genre->genreId()->value(), $array['id']);
+        self::assertEquals($genre->genreName()->value(), $array['name']);
     }
 
     public function testNotFound(): void
@@ -47,7 +56,11 @@ class ViewGenreServiceTest extends TestCase
 
         $this->expectException(GenreNotFoundException::class);
 
-        $service = new ViewGenreService($repository);
+        $service = new ViewGenreService(
+            $repository,
+            new ArrayGenreDataTransformer(),
+        );
+
         $service->execute(
             new ViewGenreRequest($genre->genreId()->value())
         );
@@ -67,7 +80,11 @@ class ViewGenreServiceTest extends TestCase
             ->willReturn(null);
 
         try {
-            $service = new ViewGenreService($repository);
+            $service = new ViewGenreService(
+                $repository,
+                new ArrayGenreDataTransformer(),
+            );
+
             $service->execute(
                 new ViewGenreRequest($genre->genreId()->value())
             );
@@ -81,7 +98,8 @@ class ViewGenreServiceTest extends TestCase
     public function testInvalidUuid(): void
     {
         $service = new ViewGenreService(
-            $this->createMock(GenreRepository::class)
+            $this->createMock(GenreRepository::class),
+            new ArrayGenreDataTransformer(),
         );
 
         $this->expectException(InvalidArgumentException::class);

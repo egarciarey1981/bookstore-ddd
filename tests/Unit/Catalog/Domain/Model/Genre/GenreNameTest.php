@@ -14,5 +14,5 @@ class GenreNameTest extends TestCase
         $value = 'Adventure';
         $genreName = new GenreName($value);
         self::assertEquals($value, strval($genreName));
-    } 
+    }
 }

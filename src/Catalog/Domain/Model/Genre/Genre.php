@@ -12,8 +12,7 @@ class Genre
     public function __construct(
         GenreId $genreId,
         GenreName $genreName,
-    )
-    {
+    ) {
         $this->genreId = $genreId;
         $this->genreName = $genreName;
     }
