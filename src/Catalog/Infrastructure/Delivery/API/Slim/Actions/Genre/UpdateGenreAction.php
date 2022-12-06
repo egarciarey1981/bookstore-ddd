@@ -7,9 +7,10 @@ namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreService;
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreRequest;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
+use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class UpdateGenreAction extends GenreAction
+class UpdateGenreAction extends Action
 {
     private UpdateGenreService $updateGenreService;
 
