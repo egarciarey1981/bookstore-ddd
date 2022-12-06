@@ -6,23 +6,29 @@ namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreService;
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreRequest;
+use App\Catalog\Domain\Model\Genre\GenreRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class UpdateGenreAction extends GenreAction
 {
+    private UpdateGenreService $updateGenreService;
+
+    public function __construct(GenreRepository $genreRepository)
+    {
+        $this->updateGenreService = new UpdateGenreService($genreRepository);
+    }
+
     public function action(): Response
     {
-        $id = $this->args['id'];
         $formData = $this->getFormData();
 
-        $updateGenreRequest = new UpdateGenreRequest($id, $formData['name']);
-        $updateGenreService = new UpdateGenreService($this->genreRepository);
-        $updateGenreResponse = $updateGenreService->execute($updateGenreRequest);
+        $updateGenreRequest = new UpdateGenreRequest(
+            $this->args['id'],
+            $formData['name'],
+        );
 
-        $genre = $updateGenreResponse->genre;
+        $this->updateGenreService->execute($updateGenreRequest);
 
-        $data = ['genre' => $genre];
-
-        return $this->respondWithData($data, 201);
+        return $this->respond(200);
     }
 }
