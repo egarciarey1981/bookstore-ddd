@@ -12,13 +12,15 @@ class CreateGenreService extends GenreService
 {
     public function execute(CreateGenreRequest $createGenreRequest): CreateGenreResponse
     {
-        $genre = new Genre(
-            $this->genreRepository->nextId(),
-            new GenreName($createGenreRequest->name),
+        $genreId = $this->genreRepository->nextId();
+
+        $this->genreRepository->save(
+            new Genre(
+                $genreId,
+                new GenreName($createGenreRequest->name),
+            )
         );
 
-        $this->genreRepository->save($genre);
-
-        return new CreateGenreResponse($genre->genreId()->value());
+        return new CreateGenreResponse($genreId()->value());
     }
 }

@@ -12,9 +12,9 @@ class DeleteGenreService extends GenreService
 {
     public function execute(DeleteGenreRequest $deleteGenreRequest): void
     {
-        $genreId = new GenreId($deleteGenreRequest->id);
-
-        $genre = $this->genreRepository->ofId($genreId);
+        $genre = $this->genreRepository->ofId(
+            new GenreId($deleteGenreRequest->id)
+        );
 
         if (is_null($genre)) {
             throw new GenreNotFoundException();

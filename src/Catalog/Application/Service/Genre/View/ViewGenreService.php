@@ -25,9 +25,9 @@ class ViewGenreService
 
     public function execute(ViewGenreRequest $viewGenreRequest): void
     {
-        $genreId = new GenreId($viewGenreRequest->id);
-
-        $genre = $this->genreRepository->ofId($genreId);
+        $genre = $this->genreRepository->ofId(
+            new GenreId($viewGenreRequest->id)
+        );
 
         if (is_null($genre)) {
             throw new GenreNotFoundException();

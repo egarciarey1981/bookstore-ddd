@@ -8,7 +8,6 @@ use App\Catalog\Domain\Model\Genre\Genre;
 
 class ArrayGenreDataTransformer implements GenreDataTransformer
 {
-
     private array $data;
 
     public function write(Genre $genre): void
