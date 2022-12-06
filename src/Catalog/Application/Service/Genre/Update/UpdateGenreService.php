@@ -15,14 +15,13 @@ class UpdateGenreService extends GenreService
     public function execute(UpdateGenreRequest $request): void
     {
         $genreId = new GenreId($request->id);
-        $genreName = new GenreName($request->name);
-
         $genre = $this->genreRepository->ofId($genreId);
-
+        
         if (is_null($genre)) {
             throw new GenreNotFoundException();
         }
-
+        
+        $genreName = new GenreName($request->name);
         $genre->setGenreName($genreName);
 
         $this->genreRepository->save($genre);

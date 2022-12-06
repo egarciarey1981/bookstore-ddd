@@ -6,6 +6,9 @@ namespace Tests\Unit\Catalog\Application\Service\Genre\View;
 
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreRequest;
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreService;
+use App\Catalog\Domain\Model\Genre\Genre;
+use App\Catalog\Domain\Model\Genre\GenreId;
+use App\Catalog\Domain\Model\Genre\GenreName;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
 use InvalidArgumentException;
@@ -16,24 +19,34 @@ class UpdateGenreServiceTest extends TestCase
 {
     public function testHappyPath(): void
     {
-        $genre = GenreObjectMother::createOne();
+        $genreId = new GenreId('bd207a1c-fe19-4ed2-a61b-c315ca95d38c');
+
+        $genreOld = new Genre(
+            $genreId,
+            new GenreName('Adventure'),
+        );
+
+        $genreNew = new Genre(
+            $genreId,
+            new GenreName('Pirates'),
+        );
 
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
             ->method('ofId')
-            ->with($genre->genreId())
-            ->willReturn($genre);
+            ->with($genreId)
+            ->willReturn($genreOld);
         $repository
             ->expects($this->once())
             ->method('save')
-            ->with($genre);
+            ->with($genreNew);
 
         $service = new UpdateGenreService($repository);
         $service->execute(
             new UpdateGenreRequest(
-                $genre->genreId()->value(),
-                $genre->genreName()->value(),
+                $genreNew->genreId()->value(),
+                $genreNew->genreName()->value(),
             )
         );
     }
@@ -65,12 +78,18 @@ class UpdateGenreServiceTest extends TestCase
      */
     public function testInvalidArguments(string $id, string $name): void
     {
-        $service = new UpdateGenreService(
-            $this->createMock(GenreRepository::class)
-        );
+        $genre = GenreObjectMother::createOne();
+        
+        $repository = $this->createMock(GenreRepository::class);
+        $repository
+            ->expects($this->once())
+            ->method('ofId')
+            ->with(new GenreId($id))
+            ->willReturn($genre);
 
         $this->expectException(InvalidArgumentException::class);
 
+        $service = new UpdateGenreService($repository);
         $service->execute(
             new UpdateGenreRequest($id, $name)
         );
@@ -82,7 +101,6 @@ class UpdateGenreServiceTest extends TestCase
     public function dataProviderInvalidArguments(): array
     {
         return [
-            ['invalid uuid', 'Adventure'],
             ['bd207a1c-fe19-4ed2-a61b-c315ca95d38c', ''],
             ['bd207a1c-fe19-4ed2-a61b-c315ca95d38c', 'ab'],
             ['bd207a1c-fe19-4ed2-a61b-c315ca95d38c', 'this genre name is too long'],
