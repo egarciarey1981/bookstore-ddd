@@ -9,8 +9,8 @@ interface GenreRepository
     public function nextId(): GenreId;
     public function ofId(GenreId $id): ?Genre;
     public function contains(Genre $genre): bool;
-    public function save(Genre $genre): bool;
-    public function remove(Genre $genre): bool;
+    public function save(Genre $genre): void;
+    public function remove(Genre $genre): void;
     /**
      * @return array<Genre>
      */

@@ -35,27 +35,16 @@ class DoctrineGenreRepository implements GenreRepository
         return !is_null($this->em->find('App\Catalog\Domain\Model\Genre\Genre', $genre->genreId()));
     }
 
-    public function save(Genre $genre): bool
+    public function save(Genre $genre): void
     {
-        if ($this->contains($genre)) {
-            $this->em->merge($genre);
-        } else {
-            $this->em->persist($genre);
-        }
-
+        $this->em->persist($genre);
         $this->em->flush();
-        return true;
     }
 
-    public function remove(Genre $genre): bool
+    public function remove(Genre $genre): void
     {
-        if (!$this->contains($genre)) {
-            return false;
-        }
-
         $this->em->remove($genre);
         $this->em->flush();
-        return true;
     }
 
     /**

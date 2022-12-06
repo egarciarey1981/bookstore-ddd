@@ -24,10 +24,9 @@ class InMemoryGenreRepository implements GenreRepository
         return isset($this->genres[$genre->genreId()->value()]);
     }
 
-    public function save(Genre $genre): bool
+    public function save(Genre $genre): void
     {
         $this->genres[$genre->genreId()->value()] = $genre;
-        return true;
     }
 
     public function ofId(GenreId $genreId): ?Genre
@@ -35,10 +34,9 @@ class InMemoryGenreRepository implements GenreRepository
         return $this->genres[$genreId->value()] ?? null;
     }
 
-    public function remove(Genre $genre): bool
+    public function remove(Genre $genre): void
     {
         unset($this->genres[$genre->genreId()->value()]);
-        return true;
     }
 
     public function all(): array

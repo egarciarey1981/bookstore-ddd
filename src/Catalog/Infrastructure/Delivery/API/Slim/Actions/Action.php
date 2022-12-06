@@ -28,7 +28,7 @@ abstract class Action
         } catch (NotFoundException $e) {
             return $this->respondWithData(['errors' => $e->getMessage()], 404);
         } catch (Throwable $t) {
-            return $this->respondWithData(['errors' => $t->getMessage()], 500);
+            return $this->respondWithData(['errors' => 'An unexpected error occurred'], 500);
         }
     }
 
