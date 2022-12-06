@@ -11,32 +11,32 @@ class GenreName
     private const MIN_LENGTH = 3;
     private const MAX_LENGTH = 20;
 
-    private string $name;
+    private string $value;
 
-    public function __construct(string $name)
+    public function __construct(string $value)
     {
-        $this->assert($name);
-        $this->name = $name;
+        $this->assert($value);
+        $this->value = $value;
     }
 
-    private function assert(string $name): void
+    private function assert(string $value): void
     {
-        $this->assertNotTooShort($name);
-        $this->assertNotTooLong($name);
+        $this->assertNotTooShort($value);
+        $this->assertNotTooLong($value);
     }
 
-    private function assertNotTooShort(string $name): void
+    private function assertNotTooShort(string $value): void
     {
-        if (strlen($name) < self::MIN_LENGTH) {
+        if (strlen($value) < self::MIN_LENGTH) {
             throw new InvalidArgumentException(
                 sprintf('The genre name must be %d characters or more', self::MIN_LENGTH)
             );
         }
     }
 
-    private function assertNotTooLong(string $name): void
+    private function assertNotTooLong(string $value): void
     {
-        if (strlen($name) > self::MAX_LENGTH) {
+        if (strlen($value) > self::MAX_LENGTH) {
             throw new InvalidArgumentException(
                 sprintf('The genre name must be %d characters or less', self::MAX_LENGTH)
             );
@@ -45,11 +45,16 @@ class GenreName
 
     public function equals(GenreName $genreName): bool
     {
-        return $this->name === strval($genreName);
+        return $this->value === $genreName->value;
+    }
+
+    public function value(): string
+    {
+        return $this->value;
     }
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->value;
     }
 }

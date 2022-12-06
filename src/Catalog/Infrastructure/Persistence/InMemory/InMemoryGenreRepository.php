@@ -21,23 +21,23 @@ class InMemoryGenreRepository implements GenreRepository
 
     public function contains(Genre $genre): bool
     {
-        return isset($this->genres[strval($genre->id())]);
+        return isset($this->genres[$genre->genreId()->value()]);
     }
 
     public function save(Genre $genre): bool
     {
-        $this->genres[strval($genre->id())] = $genre;
+        $this->genres[$genre->genreId()->value()] = $genre;
         return true;
     }
 
-    public function ofId(GenreId $id): ?Genre
+    public function ofId(GenreId $genreId): ?Genre
     {
-        return $this->genres[strval($id)] ?? null;
+        return $this->genres[$genreId->value()] ?? null;
     }
 
     public function remove(Genre $genre): bool
     {
-        unset($this->genres[strval($genre->id())]);
+        unset($this->genres[$genre->genreId()->value()]);
         return true;
     }
 

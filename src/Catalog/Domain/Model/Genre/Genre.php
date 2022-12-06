@@ -6,27 +6,35 @@ namespace App\Catalog\Domain\Model\Genre;
 
 class Genre
 {
-    private GenreId $id;
-    private GenreName $name;
+    private GenreId $genreId;
+    private GenreName $genreName;
 
-    public function __construct(GenreId $id, GenreName $name)
+    public function __construct(
+        GenreId $genreId,
+        GenreName $genreName,
+    )
     {
-        $this->id = $id;
-        $this->name = $name;
+        $this->genreId = $genreId;
+        $this->genreName = $genreName;
     }
 
-    public function id(): GenreId
+    public function genreId(): GenreId
     {
-        return $this->id;
+        return $this->genreId;
     }
 
-    public function name(): GenreName
+    public function setGenreName(GenreName $genreName): void
     {
-        return $this->name;
+        $this->genreName = $genreName;
+    }
+
+    public function genreName(): GenreName
+    {
+        return $this->genreName;
     }
 
     public function equals(Genre $genre): bool
     {
-        return $this->id->equals($genre->id());
+        return $this->genreId->equals($genre->genreId);
     }
 }

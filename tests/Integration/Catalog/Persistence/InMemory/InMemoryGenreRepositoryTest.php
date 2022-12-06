@@ -27,11 +27,11 @@ class CreateGenreServiceTest extends TestCase
         $repo = new InMemoryGenreRepository();
         self::assertTrue($repo->save($genre));
 
-        $genreFound = $repo->ofId($genre->id());
+        $genreFound = $repo->ofId($genre->genreId());
 
         self::assertTrue($genre->equals($genreFound));
-        self::assertTrue($genre->id()->equals($genreFound->id()));
-        self::assertTrue($genre->name()->equals($genreFound->name()));
+        self::assertTrue($genre->genreId()->equals($genreFound->genreId()));
+        self::assertTrue($genre->genreName()->equals($genreFound->genreName()));
     }
 
     public function testAll(): void
@@ -76,6 +76,6 @@ class CreateGenreServiceTest extends TestCase
         $repo->save($genre);
 
         self::assertTrue($repo->remove($genre));
-        self::assertNull($repo->ofId($genre->id()));
+        self::assertNull($repo->ofId($genre->genreId()));
     }
 }

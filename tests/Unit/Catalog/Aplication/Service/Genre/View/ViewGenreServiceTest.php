@@ -14,7 +14,7 @@ use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 
 class ViewGenreServiceTest extends TestCase
 {
-    public function testFind(): void
+    public function testHappyPath(): void
     {
         $genre = GenreObjectMother::createOne();
 
@@ -22,16 +22,16 @@ class ViewGenreServiceTest extends TestCase
         $repository
             ->expects($this->once())
             ->method('ofId')
-            ->with($genre->id())
+            ->with($genre->genreId())
             ->willReturn($genre);
 
         $service = new ViewGenreService($repository);
         $response = $service->execute(
-            new ViewGenreRequest(strval($genre->id()))
+            new ViewGenreRequest($genre->genreId()->value())
         );
 
-        self::assertEquals(strval($genre->id()), $response->genre['id']);
-        self::assertEquals(strval($genre->name()), $response->genre['name']);
+        self::assertEquals($genre->genreId()->value(), $response->genre['id']);
+        self::assertEquals($genre->genreName()->value(), $response->genre['name']);
     }
 
     public function testNotFound(): void
@@ -42,14 +42,14 @@ class ViewGenreServiceTest extends TestCase
         $repository
             ->expects($this->once())
             ->method('ofId')
-            ->with($genre->id())
+            ->with($genre->genreId())
             ->willReturn(null);
 
         $this->expectException(GenreNotFoundException::class);
 
         $service = new ViewGenreService($repository);
         $service->execute(
-            new ViewGenreRequest(strval($genre->id()))
+            new ViewGenreRequest($genre->genreId()->value())
         );
     }
 
@@ -63,13 +63,13 @@ class ViewGenreServiceTest extends TestCase
         $repository
             ->expects($this->once())
             ->method('ofId')
-            ->with($genre->id())
+            ->with($genre->genreId())
             ->willReturn(null);
 
         try {
             $service = new ViewGenreService($repository);
             $service->execute(
-                new ViewGenreRequest(strval($genre->id()))
+                new ViewGenreRequest($genre->genreId()->value())
             );
         } catch (GenreNotFoundException $e) {
             $message = $e->getMessage();

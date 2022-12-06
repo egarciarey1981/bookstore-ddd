@@ -9,13 +9,11 @@ use App\Catalog\Domain\Model\Genre\Genre;
 class CreateGenreResponse
 {
     /** @var array<string> */
-    public array $genre;
+    public array $genre = [];
 
     public function __construct(Genre $genre)
     {
-        $array = [];
-        $array['id'] = strval($genre->id());
-        $array['name'] = strval($genre->name());
-        $this->genre = $array;
+        $this->genre['id'] = $genre->genreId()->value();
+        $this->genre['name'] = $genre->genreName()->value();
     }
 }

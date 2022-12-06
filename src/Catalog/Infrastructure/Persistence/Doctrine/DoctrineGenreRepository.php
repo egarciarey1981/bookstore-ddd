@@ -32,7 +32,7 @@ class DoctrineGenreRepository implements GenreRepository
 
     public function contains(Genre $genre): bool
     {
-        return !is_null($this->em->find('App\Catalog\Domain\Model\Genre\Genre', $genre->id()));
+        return !is_null($this->em->find('App\Catalog\Domain\Model\Genre\Genre', $genre->genreId()));
     }
 
     public function save(Genre $genre): bool

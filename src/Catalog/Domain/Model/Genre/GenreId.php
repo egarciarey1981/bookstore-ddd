@@ -9,28 +9,33 @@ use Ramsey\Uuid\Uuid;
 
 class GenreId
 {
-    private string $id;
+    private string $value;
 
-    public function __construct(string $id)
+    public function __construct(string $value)
     {
-        $this->assert($id);
-        $this->id = $id;
+        $this->assert($value);
+        $this->value = $value;
     }
 
-    private function assert(string $id): void
+    private function assert(string $value): void
     {
-        if (!Uuid::isValid($id)) {
+        if (!Uuid::isValid($value)) {
             throw new InvalidArgumentException("Genre ID not valid");
         }
     }
 
     public function equals(GenreId $genreId): bool
     {
-        return $this->id === strval($genreId);
+        return $this->value === $genreId->value;
+    }
+
+    public function value(): string
+    {
+        return $this->value;
     }
 
     public function __toString(): string
     {
-        return $this->id;
+        return $this->value;
     }
 }

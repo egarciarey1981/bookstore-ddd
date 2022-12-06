@@ -12,7 +12,7 @@ use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 
 class ListGenreServiceTest extends TestCase
 {
-    public function testList(): void
+    public function testHappyPath(): void
     {
         $total = 3;
 

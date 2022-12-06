@@ -15,8 +15,8 @@ class ListGenreResponse
     {
         foreach ($genres as $genre) {
             $array = [];
-            $array['id'] = strval($genre->id());
-            $array['name'] = strval($genre->name());
+            $array['id'] = strval($genre->genreId()->value());
+            $array['name'] = strval($genre->genreName()->value());
             $this->genres[] = $array;
         }
     }

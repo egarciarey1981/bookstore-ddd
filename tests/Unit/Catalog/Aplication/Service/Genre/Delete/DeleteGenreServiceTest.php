@@ -15,7 +15,7 @@ use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 
 class DeleteGenreServiceTest extends TestCase
 {
-    public function testDelete(): void
+    public function testHappyPath(): void
     {
         $genre = GenreObjectMother::createOne();
 
@@ -23,41 +23,16 @@ class DeleteGenreServiceTest extends TestCase
         $repository
             ->expects($this->once())
             ->method('ofId')
-            ->with($genre->id())
+            ->with($genre->genreId())
             ->willReturn($genre);
         $repository
             ->expects($this->once())
             ->method('remove')
-            ->with($genre)
-            ->willReturn(true);
+            ->with($genre);
 
         $service = new DeleteGenreService($repository);
         $service->execute(
-            new DeleteGenreRequest(strval($genre->id()))
-        );
-    }
-
-    public function testNotDelete(): void
-    {
-        $genre = GenreObjectMother::createOne();
-
-        $repository = $this->createMock(GenreRepository::class);
-        $repository
-            ->expects($this->once())
-            ->method('ofId')
-            ->with($genre->id())
-            ->willReturn($genre);
-        $repository
-            ->expects($this->once())
-            ->method('remove')
-            ->with($genre)
-            ->willReturn(false);
-
-        $this->expectException(Exception::class);
-
-        $service = new DeleteGenreService($repository);
-        $service->execute(
-            new DeleteGenreRequest(strval($genre->id()))
+            new DeleteGenreRequest($genre->genreId()->value())
         );
     }
 
@@ -69,14 +44,14 @@ class DeleteGenreServiceTest extends TestCase
         $repository
             ->expects($this->once())
             ->method('ofId')
-            ->with($genre->id())
+            ->with($genre->genreId())
             ->willReturn(null);
 
         $this->expectException(GenreNotFoundException::class);
 
         $service = new DeleteGenreService($repository);
         $service->execute(
-            new DeleteGenreRequest(strval($genre->id()))
+            new DeleteGenreRequest($genre->genreId()->value())
         );
     }
 

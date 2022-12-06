@@ -8,61 +8,32 @@ use App\Catalog\Application\Service\Genre\Update\UpdateGenreRequest;
 use App\Catalog\Application\Service\Genre\Update\UpdateGenreService;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 use App\Catalog\Domain\Model\Genre\GenreRepository;
-use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 
 class UpdateGenreServiceTest extends TestCase
 {
-    public function testUpdate(): void
+    public function testHappyPath(): void
     {
         $genre = GenreObjectMother::createOne();
 
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
-            ->method('contains')
-            ->with($genre)
-            ->willReturn(true);
+            ->method('ofId')
+            ->with($genre->genreId())
+            ->willReturn($genre);
         $repository
             ->expects($this->once())
             ->method('save')
-            ->with($genre)
-            ->willReturn(true);
+            ->with($genre);
 
         $service = new UpdateGenreService($repository);
         $service->execute(
             new UpdateGenreRequest(
-                strval($genre->id()),
-                strval($genre->name()),
-            )
-        );
-    }
-
-    public function testNotUpdate(): void
-    {
-        $genre = GenreObjectMother::createOne();
-
-        $repository = $this->createMock(GenreRepository::class);
-        $repository
-            ->expects($this->once())
-            ->method('contains')
-            ->with($genre)
-            ->willReturn(true);
-        $repository
-            ->expects($this->once())
-            ->method('save')
-            ->with($genre)
-            ->willReturn(false);
-
-        $this->expectException(Exception::class);
-
-        $service = new UpdateGenreService($repository);
-        $service->execute(
-            new UpdateGenreRequest(
-                strval($genre->id()),
-                strval($genre->name()),
+                $genre->genreId()->value(),
+                $genre->genreName()->value(),
             )
         );
     }
@@ -74,17 +45,17 @@ class UpdateGenreServiceTest extends TestCase
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
-            ->method('contains')
-            ->with($genre)
-            ->willReturn(false);
+            ->method('ofId')
+            ->with($genre->genreId())
+            ->willReturn(null);
 
         $this->expectException(GenreNotFoundException::class);
 
         $service = new UpdateGenreService($repository);
         $service->execute(
             new UpdateGenreRequest(
-                strval($genre->id()),
-                strval($genre->name()),
+                $genre->genreId()->value(),
+                $genre->genreName()->value(),
             )
         );
     }
