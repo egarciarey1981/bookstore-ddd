@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Catalog\Application\Service\Genre\View;
 
-use App\Catalog\Domain\Model\Genre\GenreId;
-
 class ViewGenreRequest
 {
-    public GenreId $genreId;
+    public string $id;
 
     public function __construct(string $id)
     {
-        $this->genreId = new GenreId($id);
+        $this->id = $id;
     }
 }

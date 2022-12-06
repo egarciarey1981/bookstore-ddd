@@ -4,24 +4,35 @@ declare(strict_types=1);
 
 namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
+use App\Catalog\Application\DataTransformer\Genre\ArrayGenreDataTransformer;
 use App\Catalog\Application\Service\Genre\View\ViewGenreRequest;
 use App\Catalog\Application\Service\Genre\View\ViewGenreService;
-use Psr\Http\Message\ResponseInterface as Response;
+use App\Catalog\Domain\Model\Genre\GenreRepository;
+use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Action;
+use Psr\Http\Message\ResponseInterface;
 
-class ViewGenreAction extends GenreAction
+class ViewGenreAction extends Action
 {
-    public function action(): Response
+    private ViewGenreService $viewGenreService;
+
+    public function __construct(GenreRepository $genreRepository)
+    {
+        $this->viewGenreService = new ViewGenreService(
+            $genreRepository,
+            new ArrayGenreDataTransformer(),
+        );
+    }
+
+    public function action(): ResponseInterface
     {
         $id = $this->args['id'];
 
         $viewGenreRequest = new ViewGenreRequest($id);
-        $viewGenreService = new ViewGenreService($this->genreRepository);
-        $viewGenreResponse = $viewGenreService->execute($viewGenreRequest);
 
-        $genre = $viewGenreResponse->genre;
+        $this->viewGenreService->execute($viewGenreRequest);
 
-        $data = ['genre' => $genre];
+        $genreDataTransformer = $this->viewGenreService->genreDataTransformer();
 
-        return $this->respondWithData($data);
+        return $this->respondWithData($genreDataTransformer->read());
     }
 }
