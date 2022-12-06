@@ -6,7 +6,8 @@ namespace App\Catalog\Application\DataTransformer\Genre;
 
 use App\Catalog\Domain\Model\Genre\Genre;
 
-class ArrayGenreDataTransformer implements GenreDataTransformer{
+class ArrayGenreDataTransformer implements GenreDataTransformer
+{
 
     private array $data;
 
@@ -17,7 +18,8 @@ class ArrayGenreDataTransformer implements GenreDataTransformer{
         $this->data['genre']['name'] = $genre->genreName()->value();
     }
 
-    public function read(): mixed{
+    public function read(): mixed
+    {
         return $this->data;
     }
 }
