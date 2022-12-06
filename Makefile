@@ -3,7 +3,8 @@
 UID := $(shell id -u)
 GID := $(shell id -g)
 
-DOCKER_PHP=docker exec -it -u $(UID):$(GID) bookstore_php 
+DOCKER_PHP=docker exec -it bookstore_php 
+DOCKER_PHP_USER=docker exec -it -u $(UID):$(GID) bookstore_php 
 
 help:
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-22s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -45,7 +46,7 @@ test-unit: ## test unitarios
 test-integration: ## test de integración
 	$(DOCKER_PHP) vendor/bin/phpunit --no-coverage --testsuite Integration
 test-cover: ## test de covertura
-	$(DOCKER_PHP) vendor/bin/phpunit --testsuite Unit,Integration
+	$(DOCKER_PHP_USER) vendor/bin/phpunit --testsuite Unit,Integration
 	echo "body{font-size:1em;}" >> reports/coverage/html/_css/custom.css
 test-mutants: ## test mutantes
 	$(DOCKER_PHP) vendor/bin/infection
