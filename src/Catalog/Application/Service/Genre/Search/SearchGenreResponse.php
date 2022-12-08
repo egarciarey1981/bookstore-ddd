@@ -8,6 +8,9 @@ use Bookstore\Catalog\Domain\Model\Genre\Genre;
 
 class SearchGenreResponse
 {
+    /**
+     * @var array<int,array<string>>
+     */
     public array $genres = [];
 
     public function __construct(Genre ...$genres)

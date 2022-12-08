@@ -37,6 +37,9 @@ class Genre
         return $this->genreId->equals($genre->genreId);
     }
 
+    /**
+     * @return array<string>
+     */
     public function toArray(): array
     {
         $array['id'] = $this->genreId->value();
