@@ -5,21 +5,19 @@ declare(strict_types=1);
 namespace App\Catalog\Application\Service\Genre\Delete;
 
 use App\Catalog\Application\Service\Genre\GenreService;
-use App\Catalog\Domain\Model\Genre\GenreId;
+use App\Catalog\Application\Service\Genre\Delete\DeleteGenreRequest as Request;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 
 class DeleteGenreService extends GenreService
 {
-    public function execute(DeleteGenreRequest $deleteGenreRequest): void
+    public function execute(Request $request): void
     {
-        $genre = $this->genreRepository->ofId(
-            new GenreId($deleteGenreRequest->id)
-        );
+        $genre = $this->repository->ofId($request->genreId);
 
-        if (is_null($genre)) {
+        if (null === $genre) {
             throw new GenreNotFoundException();
         }
 
-        $this->genreRepository->remove($genre);
+        $this->repository->remove($genre);
     }
 }

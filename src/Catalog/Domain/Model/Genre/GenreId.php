@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Catalog\Domain\Model\Genre;
 
 use InvalidArgumentException;
-use Ramsey\Uuid\Uuid;
 
 class GenreId
 {
+    private const PATTERN = '/$[[:xdigit:]]{8}\-[[:xdigit:]]{4}\-[[:xdigit:]]{4}\-[[:xdigit:]]{4}\-[[:xdigit:]]{12}^/';
+
     private string $value;
 
     public function __construct(string $value)
@@ -19,19 +20,19 @@ class GenreId
 
     private function assert(string $value): void
     {
-        if (!Uuid::isValid($value)) {
-            throw new InvalidArgumentException("Genre ID not valid");
+        if(false === preg_match(self::PATTERN, $value)) {
+            throw new InvalidArgumentException();
         }
-    }
-
-    public function equals(GenreId $genreId): bool
-    {
-        return $this->value === $genreId->value;
     }
 
     public function value(): string
     {
         return $this->value;
+    }
+
+    public function equals(GenreId $genreId): bool
+    {
+        return $this->value === $genreId->value;
     }
 
     public function __toString(): string

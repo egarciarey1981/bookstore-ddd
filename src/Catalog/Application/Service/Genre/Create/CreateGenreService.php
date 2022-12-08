@@ -6,21 +6,20 @@ namespace App\Catalog\Application\Service\Genre\Create;
 
 use App\Catalog\Application\Service\Genre\GenreService;
 use App\Catalog\Domain\Model\Genre\Genre;
-use App\Catalog\Domain\Model\Genre\GenreName;
+use App\Catalog\Application\Service\Genre\Create\CreateGenreResponse as Response;
+use App\Catalog\Application\Service\Genre\Create\CreateGenreRequest as Request;
 
 class CreateGenreService extends GenreService
 {
-    public function execute(CreateGenreRequest $createGenreRequest): CreateGenreResponse
+    public function execute(Request $request): Response
     {
-        $genreId = $this->genreRepository->nextId();
-
-        $this->genreRepository->save(
-            new Genre(
-                $genreId,
-                new GenreName($createGenreRequest->name),
-            )
+        $genre = new Genre(
+            $this->repository->nextId(),
+            $request->genreName
         );
 
-        return new CreateGenreResponse($genreId->value());
+        $this->repository->save($genre);
+
+        return new Response($genre);
     }
 }

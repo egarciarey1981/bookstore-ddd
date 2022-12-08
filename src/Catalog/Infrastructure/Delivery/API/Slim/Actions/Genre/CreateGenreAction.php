@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
-use App\Catalog\Application\Service\Genre\Create\CreateGenreRequest;
-use App\Catalog\Application\Service\Genre\Create\CreateGenreService;
+use App\Catalog\Application\Service\Genre\Create\CreateGenreRequest as Request;
+use App\Catalog\Application\Service\Genre\Create\CreateGenreService as Service;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class CreateGenreAction extends GenreAction
@@ -14,15 +14,13 @@ class CreateGenreAction extends GenreAction
     {
         $formData = $this->getFormData();
 
-        $createGenreService = new CreateGenreService($this->genreRepository);
+        $service = new Service($this->repository);
 
-        $createGenreResponse = $createGenreService->execute(
-            new CreateGenreRequest(
-                $formData['name'],
-            )
+        $response = $service->execute(
+            new Request($formData['name'])
         );
 
-        $this->setHeader('Location', '/catalog/genre/' . $createGenreResponse->id);
+        $this->setHeader('Location', "/catalog/genre/{$response->genre['id']}");
 
         return $this->respond(201);
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
-use App\Catalog\Application\Service\Genre\Update\UpdateGenreService;
-use App\Catalog\Application\Service\Genre\Update\UpdateGenreRequest;
+use App\Catalog\Application\Service\Genre\Update\UpdateGenreService as Service;
+use App\Catalog\Application\Service\Genre\Update\UpdateGenreRequest as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class UpdateGenreAction extends GenreAction
@@ -14,15 +14,15 @@ class UpdateGenreAction extends GenreAction
     {
         $formData = $this->getFormData();
 
-        $updateGenreService = new UpdateGenreService($this->genreRepository);
+        $service = new Service($this->repository);
 
-        $updateGenreService->execute(
-            new UpdateGenreRequest(
+        $service->execute(
+            new Request(
                 $this->args['id'],
                 $formData['name'],
             )
         );
 
-        return $this->respond(200);
+        return $this->respond();
     }
 }
