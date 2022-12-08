@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace Bookstore\Catalog\Application\Service\Genre\Search;
 
-use Bookstore\Catalog\Domain\Model\Genre\GenreRepository;
+use Bookstore\Catalog\Application\Service\Genre\GenreService;
 
-class SearchGenreService
+class SearchGenreService extends GenreService
 {
-    private GenreRepository $repository;
-
-    public function __construct(GenreRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
     public function execute(SearchGenreRequest $request): SearchGenreResponse
     {
-        $genres = $this->repository->all();
+        $genres = $this->genreRepository->all();
 
-        return new SearchGenreResponse(...$genres);
+        $array = [];
+
+        foreach ($genres as $genre) {
+            $array[] = $genre->toArray();
+        }
+
+        return new SearchGenreResponse($array);
     }
 }

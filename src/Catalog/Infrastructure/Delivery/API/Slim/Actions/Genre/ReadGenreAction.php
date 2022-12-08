@@ -12,16 +12,18 @@ class ReadGenreAction extends GenreAction
 {
     public function action(): Response
     {
-        $service = new ReadGenreService($this->repository);
-
-        $response = $service->execute(
-            new ReadGenreRequest($this->args['id'])
+        $readGenreService = new ReadGenreService(
+            $this->genreRepository
         );
 
-        if ([] === $response->genre) {
-            return $this->respond(404);
-        }
+        $response = $readGenreService->execute(
+            new ReadGenreRequest(
+                $this->args['id']
+            )
+        );
 
-        return $this->respondWithData(['genre' => $response->genre]);
+        return $this->respondWithData([
+            'genre' => $response->genre
+        ]);
     }
 }

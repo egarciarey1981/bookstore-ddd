@@ -17,8 +17,11 @@ abstract class Action
     protected array $args;
 
     /** @param array<string> $args */
-    public function __invoke(Request $request, Response $response, array $args): Response
-    {
+    public function __invoke(
+        Request $request,
+        Response $response,
+        array $args
+    ): Response {
         $this->request = $request;
         $this->response = $response;
         $this->args = $args;
@@ -36,7 +39,7 @@ abstract class Action
     /** @return array<string> */
     public function getFormData(): array
     {
-        return json_decode(file_get_contents('php://input'), true);
+        return json_decode(file_get_contents('php://input'), true) ?? [];
     }
 
     abstract protected function action(): Response;

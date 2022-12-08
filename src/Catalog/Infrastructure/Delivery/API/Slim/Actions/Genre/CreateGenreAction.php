@@ -12,12 +12,16 @@ class CreateGenreAction extends GenreAction
 {
     public function action(): Response
     {
+        $createGenreService = new CreateGenreService(
+            $this->genreRepository
+        );
+
         $formData = $this->getFormData();
 
-        $service = new CreateGenreService($this->repository);
-
-        $response = $service->execute(
-            new CreateGenreRequest($formData['name'])
+        $response = $createGenreService->execute(
+            new CreateGenreRequest(
+                $formData['name']
+            )
         );
 
         $this->setHeader('Location', "/catalog/genre/{$response->genre['id']}");

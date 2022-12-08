@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Bookstore\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
+namespace Bookstore\Catalog\Application\Service\Genre;
 
 use Bookstore\Catalog\Domain\Model\Genre\GenreRepository;
-use Bookstore\Catalog\Infrastructure\Delivery\API\Slim\Actions\Action;
 
-abstract class GenreAction extends Action
+class GenreService
 {
     protected GenreRepository $genreRepository;
 

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Bookstore\Catalog\Application\Service\Genre\Create;
 
-use Bookstore\Catalog\Domain\Model\Genre\Genre;
-
 class CreateGenreResponse
 {
     /**
@@ -13,8 +11,11 @@ class CreateGenreResponse
      */
     public array $genre;
 
-    public function __construct(Genre $genre)
+    /**
+     * @param array<string> $genre
+     */
+    public function __construct(array $genre)
     {
-        $this->genre = $genre->toArray();
+        $this->genre = $genre;
     }
 }

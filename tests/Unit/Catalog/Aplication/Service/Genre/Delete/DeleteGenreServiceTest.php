@@ -22,7 +22,7 @@ class DeleteGenreServiceTest extends TestCase
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
-            ->method('ofId')
+            ->method('genreOfId')
             ->with($genre->genreId())
             ->willReturn($genre);
         $repository
@@ -43,7 +43,7 @@ class DeleteGenreServiceTest extends TestCase
         $repository = $this->createMock(GenreRepository::class);
         $repository
             ->expects($this->once())
-            ->method('ofId')
+            ->method('genreOfId')
             ->with($genre->genreId())
             ->willReturn(null);
 

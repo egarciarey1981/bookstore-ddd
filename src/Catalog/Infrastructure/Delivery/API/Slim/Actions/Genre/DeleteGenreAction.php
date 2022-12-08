@@ -12,10 +12,14 @@ class DeleteGenreAction extends GenreAction
 {
     public function action(): Response
     {
-        $service = new DeleteGenreService($this->repository);
+        $deleteGenreService = new DeleteGenreService(
+            $this->genreRepository
+        );
 
-        $service->execute(
-            new DeleteGenreRequest($this->args['id'])
+        $deleteGenreService->execute(
+            new DeleteGenreRequest(
+                $this->args['id']
+            )
         );
 
         return $this->respond();

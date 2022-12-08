@@ -12,16 +12,20 @@ class SearchGenreAction extends GenreAction
 {
     public function action(): Response
     {
-        //$formData = $this->getFormData();
+        $searchGenreService = new SearchGenreService(
+            $this->genreRepository
+        );
 
-        $service = new SearchGenreService($this->repository);
+        $formData = $this->getFormData();
 
-        $response = $service->execute(
+        $response = $searchGenreService->execute(
             new SearchGenreRequest(
                 //order, filter, limit, offset...
             )
         );
 
-        return $this->respondWithData(['genres' => $response->genres]);
+        return $this->respondWithData([
+            'genres' => $response->genres
+        ]);
     }
 }

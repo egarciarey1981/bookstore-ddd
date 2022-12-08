@@ -19,13 +19,13 @@ class DoctrineGenreRepository implements GenreRepository
         $this->em = $em;
     }
 
-    public function nextId(): GenreId
+    public function nextIdentity(): GenreId
     {
         $uuid = Uuid::uuid4();
         return new GenreId($uuid->toString());
     }
 
-    public function ofId(GenreId $id): ?Genre
+    public function genreOfId(GenreId $id): ?Genre
     {
         return $this->em->find('Bookstore\Catalog\Domain\Model\Genre\Genre', $id);
     }

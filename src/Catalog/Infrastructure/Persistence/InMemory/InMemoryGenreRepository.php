@@ -14,7 +14,7 @@ class InMemoryGenreRepository implements GenreRepository
     /** @var array<Genre> */
     private array $genres;
 
-    public function nextId(): GenreId
+    public function nextIdentity(): GenreId
     {
         return new GenreId(strval(Uuid::uuid4()));
     }
@@ -29,7 +29,7 @@ class InMemoryGenreRepository implements GenreRepository
         $this->genres[$genre->genreId()->value()] = $genre;
     }
 
-    public function ofId(GenreId $genreId): ?Genre
+    public function genreOfId(GenreId $genreId): ?Genre
     {
         return $this->genres[$genreId->value()] ?? null;
     }

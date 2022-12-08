@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace Bookstore\Catalog\Application\Service\Genre\Delete;
 
+use Bookstore\Catalog\Application\Service\Genre\GenreService;
+use Bookstore\Catalog\Domain\Model\Genre\GenreId;
 use Bookstore\Catalog\Domain\Model\Genre\GenreNotFoundException;
-use Bookstore\Catalog\Domain\Model\Genre\GenreRepository;
 
-class DeleteGenreService
+class DeleteGenreService extends GenreService
 {
-    private GenreRepository $repository;
-
-    public function __construct(GenreRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
     public function execute(DeleteGenreRequest $request): void
     {
-        $genre = $this->repository->ofId($request->genreId);
+        $genre = $this->genreRepository->genreOfId(
+            new GenreId($request->id)
+        );
 
         if (null === $genre) {
             throw new GenreNotFoundException();
         }
 
-        $this->repository->remove($genre);
+        $this->genreRepository->remove($genre);
     }
 }
