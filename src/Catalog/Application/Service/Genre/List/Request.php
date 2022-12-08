@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Catalog\Application\Service\Genre\List;
 
-class ListGenreRequest
+class Request
 {
     public function __construct()
     {

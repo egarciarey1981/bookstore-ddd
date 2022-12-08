@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Application\Service\Genre\Delete;
+namespace App\Catalog\Application\Service\Genre\View;
 
 use App\Catalog\Application\Service\Genre\GenreService;
-use App\Catalog\Application\Service\Genre\Delete\DeleteGenreRequest as Request;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 
-class DeleteGenreService extends GenreService
+class Service extends GenreService
 {
-    public function execute(Request $request): void
+    public function execute(Request $request): Response
     {
         $genre = $this->repository->ofId($request->genreId);
 
@@ -18,6 +17,7 @@ class DeleteGenreService extends GenreService
             throw new GenreNotFoundException();
         }
 
-        $this->repository->remove($genre);
+        return new Response($genre);
     }
+
 }

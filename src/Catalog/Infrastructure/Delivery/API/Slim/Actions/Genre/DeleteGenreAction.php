@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
-use App\Catalog\Application\Service\Genre\Delete\DeleteGenreRequest as Request;
-use App\Catalog\Application\Service\Genre\Delete\DeleteGenreService as Service;
+use App\Catalog\Application\Service\Genre\Delete\Request;
+use App\Catalog\Application\Service\Genre\Delete\Service;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class DeleteGenreAction extends GenreAction

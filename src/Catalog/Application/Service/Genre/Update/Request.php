@@ -7,7 +7,7 @@ namespace App\Catalog\Application\Service\Genre\Update;
 use App\Catalog\Domain\Model\Genre\GenreId;
 use App\Catalog\Domain\Model\Genre\GenreName;
 
-class UpdateGenreRequest
+class Request
 {
     public GenreId $genreId;
     public GenreName $genreName;

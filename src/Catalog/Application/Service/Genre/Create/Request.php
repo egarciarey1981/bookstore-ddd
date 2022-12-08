@@ -6,7 +6,7 @@ namespace App\Catalog\Application\Service\Genre\Create;
 
 use App\Catalog\Domain\Model\Genre\GenreName;
 
-class CreateGenreRequest
+class Request
 {
     public GenreName $genreName;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
-use App\Catalog\Application\Service\Genre\List\ListGenreRequest as Request;
-use App\Catalog\Application\Service\Genre\List\ListGenreService as Service;
+use App\Catalog\Application\Service\Genre\List\Request;
+use App\Catalog\Application\Service\Genre\List\Service;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class ListGenreAction extends GenreAction

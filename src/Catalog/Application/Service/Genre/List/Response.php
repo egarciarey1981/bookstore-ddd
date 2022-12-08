@@ -6,7 +6,7 @@ namespace App\Catalog\Application\Service\Genre\List;
 
 use App\Catalog\Domain\Model\Genre\Genre;
 
-class ListGenreResponse
+class Response
 {
     public array $genres = [];
 

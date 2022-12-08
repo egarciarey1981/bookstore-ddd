@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Catalog\Application\Service\Genre\Create;
 
 use App\Catalog\Application\Service\Genre\GenreService;
+use App\Catalog\Application\Service\Genre\Create\Response;
+use App\Catalog\Application\Service\Genre\Create\Request;
 use App\Catalog\Domain\Model\Genre\Genre;
-use App\Catalog\Application\Service\Genre\Create\CreateGenreResponse as Response;
-use App\Catalog\Application\Service\Genre\Create\CreateGenreRequest as Request;
 
-class CreateGenreService extends GenreService
+class Service extends GenreService
 {
     public function execute(Request $request): Response
     {

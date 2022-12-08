@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Application\Service\Genre\Create;
+namespace App\Catalog\Application\Service\Genre\View;
 
 use App\Catalog\Domain\Model\Genre\Genre;
 
-class CreateGenreResponse
+class Response
 {
     public array $genre;
 

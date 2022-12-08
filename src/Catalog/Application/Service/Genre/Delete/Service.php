@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Application\Service\Genre\Update;
+namespace App\Catalog\Application\Service\Genre\Delete;
 
 use App\Catalog\Application\Service\Genre\GenreService;
-use App\Catalog\Application\Service\Genre\Update\UpdateGenreRequest as Request;
 use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
 
-class UpdateGenreService extends GenreService
+class Service extends GenreService
 {
     public function execute(Request $request): void
     {
@@ -18,8 +17,6 @@ class UpdateGenreService extends GenreService
             throw new GenreNotFoundException();
         }
 
-        $genre->setGenreName($request->genreName);
-
-        $this->repository->save($genre);
+        $this->repository->remove($genre);
     }
 }

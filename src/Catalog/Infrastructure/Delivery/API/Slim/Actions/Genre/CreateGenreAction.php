@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
-use App\Catalog\Application\Service\Genre\Create\CreateGenreRequest as Request;
-use App\Catalog\Application\Service\Genre\Create\CreateGenreService as Service;
+use App\Catalog\Application\Service\Genre\Create\Request;
+use App\Catalog\Application\Service\Genre\Create\Service;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class CreateGenreAction extends GenreAction
