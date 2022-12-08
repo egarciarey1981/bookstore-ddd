@@ -24,7 +24,7 @@ up: ## docker-compose up -d --build
 
 composer-install: ## composer install
 	$(DOCKER_PHP) composer install -vvv docker-compose
-composer-down: ## composer dump-autoload
+composer-dump: ## composer dump-autoload
 	$(DOCKER_PHP) composer dump-autoload
 composer-update: ## composer update 
 	$(DOCKER_PHP) composer update
