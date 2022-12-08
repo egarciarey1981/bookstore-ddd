@@ -10,7 +10,8 @@ class CreateGenreRequest
 {
     public GenreName $genreName;
 
-    public function __construct(string $name) {
+    public function __construct(string $name)
+    {
         $this->genreName = new GenreName($name);
     }
 }

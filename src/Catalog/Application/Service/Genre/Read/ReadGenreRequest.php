@@ -10,7 +10,8 @@ class ReadGenreRequest
 {
     public GenreId $genreId;
 
-    public function __construct(string $id) {
+    public function __construct(string $id)
+    {
         $this->genreId = new GenreId($id);
     }
 }

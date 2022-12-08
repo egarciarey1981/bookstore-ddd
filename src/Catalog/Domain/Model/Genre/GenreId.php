@@ -20,7 +20,7 @@ class GenreId
 
     private function assert(string $value): void
     {
-        if(false === preg_match(self::PATTERN, $value)) {
+        if (false === preg_match(self::PATTERN, $value)) {
             throw new InvalidArgumentException();
         }
     }

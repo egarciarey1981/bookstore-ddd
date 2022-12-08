@@ -15,7 +15,7 @@ class CreateGenreService
     {
         $this->repository = $repository;
     }
-    
+
     public function execute(CreateGenreRequest $request): CreateGenreResponse
     {
         $genre = new Genre(

@@ -15,7 +15,7 @@ class DeleteGenreService
     {
         $this->repository = $repository;
     }
-    
+
     public function execute(DeleteGenreRequest $request): void
     {
         $genre = $this->repository->ofId($request->genreId);
