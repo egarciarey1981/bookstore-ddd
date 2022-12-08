@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Infrastructure\Persistence\Doctrine;
+namespace Bookstore\Catalog\Infrastructure\Persistence\Doctrine;
 
-use App\Catalog\Domain\Model\Genre\Genre;
-use App\Catalog\Domain\Model\Genre\GenreId;
-use App\Catalog\Domain\Model\Genre\GenreRepository;
+use Bookstore\Catalog\Domain\Model\Genre\Genre;
+use Bookstore\Catalog\Domain\Model\Genre\GenreId;
+use Bookstore\Catalog\Domain\Model\Genre\GenreRepository;
 use Doctrine\ORM\EntityManager;
 use Ramsey\Uuid\Uuid;
 
@@ -27,12 +27,12 @@ class DoctrineGenreRepository implements GenreRepository
 
     public function ofId(GenreId $id): ?Genre
     {
-        return $this->em->find('App\Catalog\Domain\Model\Genre\Genre', $id);
+        return $this->em->find('Bookstore\Catalog\Domain\Model\Genre\Genre', $id);
     }
 
     public function contains(Genre $genre): bool
     {
-        return !is_null($this->em->find('App\Catalog\Domain\Model\Genre\Genre', $genre->genreId()));
+        return !is_null($this->em->find('Bookstore\Catalog\Domain\Model\Genre\Genre', $genre->genreId()));
     }
 
     public function save(Genre $genre): void
@@ -52,7 +52,7 @@ class DoctrineGenreRepository implements GenreRepository
      */
     public function all(): array
     {
-        $repository = $this->em->getRepository('App\Catalog\Domain\Model\Genre\Genre');
+        $repository = $this->em->getRepository('Bookstore\Catalog\Domain\Model\Genre\Genre');
         return $repository->findAll();
     }
 }

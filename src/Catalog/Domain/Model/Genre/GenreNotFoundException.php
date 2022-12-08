@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Domain\Model\Genre;
+namespace Bookstore\Catalog\Domain\Model\Genre;
 
-use App\Shared\Domain\Exception\NotFoundException;
+use Bookstore\Shared\Domain\Exception\NotFoundException;
 
 class GenreNotFoundException extends NotFoundException
 {

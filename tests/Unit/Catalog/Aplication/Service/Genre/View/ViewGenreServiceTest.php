@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Catalog\Application\Service\Genre\View;
 
-use App\Catalog\Application\DataTransformer\Genre\ArrayGenreDataTransformer;
-use App\Catalog\Application\Service\Genre\View\ViewGenreRequest;
-use App\Catalog\Application\Service\Genre\View\ViewGenreService;
-use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
-use App\Catalog\Domain\Model\Genre\GenreRepository;
+use Bookstore\Catalog\Application\DataTransformer\Genre\ArrayGenreDataTransformer;
+use Bookstore\Catalog\Application\Service\Genre\View\ViewGenreRequest;
+use Bookstore\Catalog\Application\Service\Genre\View\ViewGenreService;
+use Bookstore\Catalog\Domain\Model\Genre\GenreNotFoundException;
+use Bookstore\Catalog\Domain\Model\Genre\GenreRepository;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;

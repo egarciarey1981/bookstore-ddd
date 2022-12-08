@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Application\Service\Genre\Delete;
+namespace Bookstore\Catalog\Application\Service\Genre\Read;
 
-use App\Catalog\Domain\Model\Genre\GenreId;
+use Bookstore\Catalog\Domain\Model\Genre\GenreId;
 
-class Request
+class ReadGenreRequest
 {
     public GenreId $genreId;
 

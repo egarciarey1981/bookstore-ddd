@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
+namespace Bookstore\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
-use App\Catalog\Application\Service\Genre\Update\Service;
-use App\Catalog\Application\Service\Genre\Update\Request;
+use Bookstore\Catalog\Application\Service\Genre\Update\UpdateGenreRequest;
+use Bookstore\Catalog\Application\Service\Genre\Update\UpdateGenreService;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class UpdateGenreAction extends GenreAction
@@ -14,10 +14,10 @@ class UpdateGenreAction extends GenreAction
     {
         $formData = $this->getFormData();
 
-        $service = new Service($this->repository);
+        $service = new UpdateGenreService($this->repository);
 
         $service->execute(
-            new Request(
+            new UpdateGenreRequest(
                 $this->args['id'],
                 $formData['name'],
             )

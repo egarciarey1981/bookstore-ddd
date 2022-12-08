@@ -13,12 +13,12 @@ return function (ContainerBuilder $containerBuilder) {
         EntityManager::class => function (ContainerInterface $c) {
             Type::addType(
                 'GenreId',
-                'App\Catalog\Infrastructure\Persistence\Doctrine\Types\Genre\GenreIdType'
+                'Bookstore\Catalog\Infrastructure\Persistence\Doctrine\Types\Genre\GenreIdType'
             );
 
             Type::addType(
                 'GenreName',
-                'App\Catalog\Infrastructure\Persistence\Doctrine\Types\Genre\GenreNameType'
+                'Bookstore\Catalog\Infrastructure\Persistence\Doctrine\Types\Genre\GenreNameType'
             );
 
             return EntityManager::create(

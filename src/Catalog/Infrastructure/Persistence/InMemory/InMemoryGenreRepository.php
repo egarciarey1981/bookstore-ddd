@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Infrastructure\Persistence\InMemory;
+namespace Bookstore\Catalog\Infrastructure\Persistence\InMemory;
 
-use App\Catalog\Domain\Model\Genre\Genre;
-use App\Catalog\Domain\Model\Genre\GenreId;
-use App\Catalog\Domain\Model\Genre\GenreRepository;
+use Bookstore\Catalog\Domain\Model\Genre\Genre;
+use Bookstore\Catalog\Domain\Model\Genre\GenreId;
+use Bookstore\Catalog\Domain\Model\Genre\GenreRepository;
 use Ramsey\Uuid\Uuid;
 
 class InMemoryGenreRepository implements GenreRepository

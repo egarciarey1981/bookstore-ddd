@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Infrastructure\Persistence\Doctrine\Types\Genre;
+namespace Bookstore\Catalog\Infrastructure\Persistence\Doctrine\Types\Genre;
 
-use App\Catalog\Domain\Model\Genre\GenreName;
+use Bookstore\Catalog\Domain\Model\Genre\GenreName;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 

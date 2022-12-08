@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
+namespace Bookstore\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre;
 
-use App\Catalog\Application\Service\Genre\Create\Request;
-use App\Catalog\Application\Service\Genre\Create\Service;
+use Bookstore\Catalog\Application\Service\Genre\Create\CreateGenreRequest;
+use Bookstore\Catalog\Application\Service\Genre\Create\CreateGenreService;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class CreateGenreAction extends GenreAction
@@ -14,10 +14,10 @@ class CreateGenreAction extends GenreAction
     {
         $formData = $this->getFormData();
 
-        $service = new Service($this->repository);
+        $service = new CreateGenreService($this->repository);
 
         $response = $service->execute(
-            new Request($formData['name'])
+            new CreateGenreRequest($formData['name'])
         );
 
         $this->setHeader('Location', "/catalog/genre/{$response->genre['id']}");

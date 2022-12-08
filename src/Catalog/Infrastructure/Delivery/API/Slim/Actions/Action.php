@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Infrastructure\Delivery\API\Slim\Actions;
+namespace Bookstore\Catalog\Infrastructure\Delivery\API\Slim\Actions;
 
-use App\Shared\Domain\Exception\NotFoundException;
+use Bookstore\Shared\Domain\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Throwable;
@@ -28,6 +28,7 @@ abstract class Action
         } catch (NotFoundException $e) {
             return $this->respondWithData(['errors' => $e->getMessage()], 404);
         } catch (Throwable $t) {
+            //return $this->respondWithData(['errors' => $t->getMessage()], 500);
             return $this->respondWithData(['errors' => 'An unexpected error occurred'], 500);
         }
     }

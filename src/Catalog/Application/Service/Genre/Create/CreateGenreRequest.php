@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Application\Service\Genre\Create;
+namespace Bookstore\Catalog\Application\Service\Genre\Create;
 
-use App\Catalog\Domain\Model\Genre\GenreName;
+use Bookstore\Catalog\Domain\Model\Genre\GenreName;
 
-class Request
+class CreateGenreRequest
 {
     public GenreName $genreName;
 

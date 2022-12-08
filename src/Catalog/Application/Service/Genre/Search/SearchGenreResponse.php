@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Application\Service\Genre\List;
+namespace Bookstore\Catalog\Application\Service\Genre\Search;
 
-use App\Catalog\Domain\Model\Genre\Genre;
+use Bookstore\Catalog\Domain\Model\Genre\Genre;
 
-class Response
+class SearchGenreResponse
 {
     public array $genres = [];
 

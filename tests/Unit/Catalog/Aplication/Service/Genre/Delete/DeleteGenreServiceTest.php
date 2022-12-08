@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Catalog\Application\Service\Genre\List;
 
-use App\Catalog\Application\Service\Genre\Delete\DeleteGenreRequest;
-use App\Catalog\Application\Service\Genre\Delete\DeleteGenreService;
-use App\Catalog\Domain\Model\Genre\GenreNotFoundException;
-use App\Catalog\Domain\Model\Genre\GenreRepository;
+use Bookstore\Catalog\Application\Service\Genre\Delete\DeleteGenreRequest;
+use Bookstore\Catalog\Application\Service\Genre\Delete\DeleteGenreService;
+use Bookstore\Catalog\Domain\Model\Genre\GenreNotFoundException;
+use Bookstore\Catalog\Domain\Model\Genre\GenreRepository;
 use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

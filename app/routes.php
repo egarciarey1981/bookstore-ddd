@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\CreateGenreAction;
-use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\DeleteGenreAction;
-use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\ListGenreAction;
-use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\UpdateGenreAction;
-use App\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\ViewGenreAction;
+use Bookstore\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\CreateGenreAction;
+use Bookstore\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\DeleteGenreAction;
+use Bookstore\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\ReadGenreAction;
+use Bookstore\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\SearchGenreAction;
+use Bookstore\Catalog\Infrastructure\Delivery\API\Slim\Actions\Genre\UpdateGenreAction;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
     $app->group('/catalog/genre', function (Group $group) {
-        $group->get('', ListGenreAction::class);
-        $group->get('/{id}', ViewGenreAction::class);
+        $group->get('', SearchGenreAction::class);
+        $group->get('/{id}', ReadGenreAction::class);
         $group->post('', CreateGenreAction::class);
         $group->put('/{id}', UpdateGenreAction::class);
         $group->delete('/{id}', DeleteGenreAction::class);

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Application\Service\Genre\Update;
+namespace Bookstore\Catalog\Application\Service\Genre\Update;
 
-use App\Catalog\Domain\Model\Genre\GenreId;
-use App\Catalog\Domain\Model\Genre\GenreName;
+use Bookstore\Catalog\Domain\Model\Genre\GenreId;
+use Bookstore\Catalog\Domain\Model\Genre\GenreName;
 
-class Request
+class UpdateGenreRequest
 {
     public GenreId $genreId;
     public GenreName $genreName;

@@ -17,17 +17,17 @@ class Genre
         $this->genreName = $genreName;
     }
 
-    public function genreId(): GenreId
+    public function id(): GenreId
     {
         return $this->genreId;
     }
 
-    public function setGenreName(GenreName $genreName): void
+    public function setName(GenreName $genreName): void
     {
         $this->genreName = $genreName;
     }
 
-    public function genreName(): GenreName
+    public function name(): GenreName
     {
         return $this->genreName;
     }

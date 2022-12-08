@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Catalog\Application\Service\Genre\List;
 
-use App\Catalog\Application\Service\Genre\List\ListGenreRequest;
-use App\Catalog\Application\Service\Genre\List\ListGenreService;
-use App\Catalog\Domain\Model\Genre\GenreRepository;
+use Bookstore\Catalog\Application\Service\Genre\List\ListGenreRequest;
+use Bookstore\Catalog\Application\Service\Genre\List\ListGenreService;
+use Bookstore\Catalog\Domain\Model\Genre\GenreRepository;
 use PHPUnit\Framework\TestCase;
 use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 

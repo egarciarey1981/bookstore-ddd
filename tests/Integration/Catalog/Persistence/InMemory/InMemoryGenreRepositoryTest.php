@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Catalog\Persistence\InMemory;
 
-use App\Catalog\Infrastructure\Persistence\InMemory\InMemoryGenreRepository;
+use Bookstore\Catalog\Infrastructure\Persistence\InMemory\InMemoryGenreRepository;
 use PHPUnit\Framework\TestCase;
 use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 

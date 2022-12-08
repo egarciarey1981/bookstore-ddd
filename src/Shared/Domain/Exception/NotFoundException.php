@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Domain\Exception;
+namespace Bookstore\Shared\Domain\Exception;
 
 class NotFoundException extends DomainException
 {
