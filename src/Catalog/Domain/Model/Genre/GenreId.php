@@ -8,7 +8,7 @@ use InvalidArgumentException;
 
 class GenreId
 {
-    private const PATTERN = '/$[[:xdigit:]]{8}\-[[:xdigit:]]{4}\-[[:xdigit:]]{4}\-[[:xdigit:]]{4}\-[[:xdigit:]]{12}^/';
+    private const PATTERN = '/[[:xdigit:]]{8}\-[[:xdigit:]]{4}\-[[:xdigit:]]{4}\-[[:xdigit:]]{4}\-[[:xdigit:]]{12}/';
 
     private string $value;
 
@@ -20,7 +20,9 @@ class GenreId
 
     private function assert(string $value): void
     {
-        if (false === preg_match(self::PATTERN, $value)) {
+        preg_match(self::PATTERN, $value, $matches);
+
+        if ([] === $matches) {
             throw new InvalidArgumentException();
         }
     }

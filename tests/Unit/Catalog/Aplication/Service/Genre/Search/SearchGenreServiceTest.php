@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Catalog\Application\Service\Genre\List;
 
-use Bookstore\Catalog\Application\Service\Genre\List\ListGenreRequest;
-use Bookstore\Catalog\Application\Service\Genre\List\ListGenreService;
+use Bookstore\Catalog\Application\Service\Genre\Search\SearchGenreRequest;
+use Bookstore\Catalog\Application\Service\Genre\Search\SearchGenreService;
 use Bookstore\Catalog\Domain\Model\Genre\GenreRepository;
 use PHPUnit\Framework\TestCase;
 use Tests\Unit\Catalog\Domain\Model\Genre\GenreObjectMother;
 
-class ListGenreServiceTest extends TestCase
+class SearchGenreServiceTest extends TestCase
 {
     public function testHappyPath(): void
     {
-        $total = 3;
+        $total = rand(3, 9);
 
         $genres = [];
         for ($i = 0; $i < $total; $i++) {
@@ -27,9 +27,9 @@ class ListGenreServiceTest extends TestCase
             ->method('all')
             ->willReturn($genres);
 
-        $service = new ListGenreService($repository);
+        $service = new SearchGenreService($repository);
         $response = $service->execute(
-            new ListGenreRequest()
+            new SearchGenreRequest()
         );
 
         self::assertEquals($total, count($response->genres));
