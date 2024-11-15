@@ -1,2 +1,2 @@
 # bookstore-ddd
-Proyecto para probar conceptos de DDD.
+Proyecto base para probar conceptos de DDD.
